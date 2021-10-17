@@ -166,3 +166,27 @@ require('../database/dbHelper.php')
         <!-- /MAIN HEADER -->
     </header>
     <!-- /HEADER -->
+    <!-- NAVIGATION -->
+    <nav id="navigation">
+        <!-- container -->
+        <div class="container">
+            <!-- responsive-nav -->
+            <div id="responsive-nav">
+                <!-- NAV -->
+                <ul class="main-nav nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Hot Deals</a></li>
+                    <li><a href="#">Laptop Theo Hãng</a></li>
+                    <li><a href="#">Laptop Văn Phòng</a></li>
+                    <li><a href="#">Laptops Gaming</a></li>
+                    <li><a href="#">Linh, Phụ Kiện Laptop</a></li>
+                    <!-- <li><a href="#">Cameras</a></li>
+						<li><a href="#">Accessories</a></li> -->
+                </ul>
+                <!-- /NAV -->
+            </div>
+            <!-- /responsive-nav -->
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /NAVIGATION -->

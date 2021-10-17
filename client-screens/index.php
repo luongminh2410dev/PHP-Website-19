@@ -1,30 +1,6 @@
 <?php
 require('./inc/header.php')
 ?>
-<!-- NAVIGATION -->
-<nav id="navigation">
-	<!-- container -->
-	<div class="container">
-		<!-- responsive-nav -->
-		<div id="responsive-nav">
-			<!-- NAV -->
-			<ul class="main-nav nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">Hot Deals</a></li>
-				<li><a href="#">Laptop Theo Hãng</a></li>
-				<li><a href="#">Laptop Văn Phòng</a></li>
-				<li><a href="#">Laptops Gaming</a></li>
-				<li><a href="#">Linh, Phụ Kiện Laptop</a></li>
-				<!-- <li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li> -->
-			</ul>
-			<!-- /NAV -->
-		</div>
-		<!-- /responsive-nav -->
-	</div>
-	<!-- /container -->
-</nav>
-<!-- /NAVIGATION -->
 
 <!-- SECTION -->
 <div class="section">
@@ -350,21 +326,25 @@ require('./inc/header.php')
 								// Lay cac san pham tu database
 								$sql 		 = 'select * from tbl_product';
 								$listProduct = executeResult($sql);
+								// lay cac loai sp
 								foreach ($listProduct as $item) {
-									// $price = money_format('%.2n', $item['price']);
-									$price = number_format($item['price'], 0, ',', '.');
+									$price 	     = number_format($item['price'], 0, ',', '.');
+									$oldprice    = number_format($item['price'] + 1000000, 0, ',', '.');
+									$sqlBrand    = 'select name from tbl_category_type where id = ' . $item['type_id'] . '';
+									$brand 	     = executeResult($sqlBrand);
+									$salePercent = number_format((1000000 * 100) / $item['price'], 0);
 									echo '<div class="product">
 										<div class="product-img">
-											<img src="' . $item['image'] . '" alt="">
+											<img src=' . $item['image'] . ' style="object-fit:contain"  height="267" alt="Image Product">
 											<div class="product-label">
-												<span class="sale">-30%</span>
+												<span class="sale">- ' . $salePercent . '%</span>
 												<span class="new">NEW</span>
 											</div>
 										</div>
 										<div class="product-body">
-											<p class="product-category">Category</p>
+											<p class="product-category">' . $brand[0]['name'] . '</p>
 											<h3 class="product-name"><a href="#">' . $item['name'] . '</a></h3>
-											<h4 class="product-price">₫ ' . $price . ' <del class="product-old-price">$990.00</del></h4>
+											<h4 class="product-price">₫ ' . $price . ' <del class="product-old-price">₫ ' . $oldprice . '</del></h4>
 											<div class="product-rating">
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
