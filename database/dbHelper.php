@@ -12,6 +12,7 @@ function execute($sql)
 function executeResult($sql)
 {
     $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    // echo "$sql";
     $result = mysqli_query($con, $sql);
     if ($result) {
         $data   = [];
@@ -24,4 +25,11 @@ function executeResult($sql)
     } else {
         return null;
     }
+}
+function executeOneResult($sql)
+{
+    $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    $result = mysqli_query($con, $sql);
+    $row    = mysqli_fetch_assoc($result);
+    return $row;
 }

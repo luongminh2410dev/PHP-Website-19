@@ -1,7 +1,35 @@
 <?php
-require('./inc/header.php')
+require('./inc/header.php');
+require('../functions/functionHelper.php');
 ?>
+<!-- COUNTDOWN Script -->
+<script>
+	var end = new Date("Oct 31, 2021 00:00:00").getTime();
 
+	var _second = 1000;
+	var _minute = _second * 60;
+	var _hour = _minute * 60;
+	var _day = _hour * 24;
+	var timer;
+
+	function showRemaining() {
+		var now = new Date().getTime();
+		var distance = end - now;
+		if (distance < 0) {
+			clearInterval(timer);
+			return;
+		}
+		var days = Math.floor(distance / _day);
+		var hours = Math.floor((distance % _day) / _hour);
+		var minutes = Math.floor((distance % _hour) / _minute);
+		var seconds = Math.floor((distance % _minute) / _second);
+		document.getElementById('countdown_days').innerHTML = days;
+		document.getElementById('countdown_hours').innerHTML = hours;
+		document.getElementById('countdown_minutes').innerHTML = minutes;
+		document.getElementById('countdown_seconds').innerHTML = seconds;
+	}
+	timer = setInterval(showRemaining, 1000);
+</script>
 <!-- SECTION -->
 <div class="section">
 	<!-- container -->
@@ -70,10 +98,10 @@ require('./inc/header.php')
 					<div class="section-nav">
 						<ul class="section-tab-nav tab-nav">
 							<li class="active"><a data-toggle="tab" href="#tab1">Tất cả</a></li>
-							<li><a data-toggle="tab" href="#tab1">Asus</a></li>
-							<li><a data-toggle="tab" href="#tab1">Dell</a></li>
-							<li><a data-toggle="tab" href="#tab1">Acer</a></li>
-							<li><a data-toggle="tab" href="#tab1">HP</a></li>
+							<li><a onclick="handleSelectBrand('Asus')" data-toggle="tab" href="#tab1">Asus</a></li>
+							<li><a onclick="handleSelectBrand('Dell')" data-toggle="tab" href="#tab1">Dell</a></li>
+							<li><a onclick="handleSelectBrand('Acer')" data-toggle="tab" href="#tab1">Acer</a></li>
+							<li><a onclick="handleSelectBrand('HP')" data-toggle="tab" href="#tab1">HP</a></li>
 						</ul>
 					</div>
 				</div>
@@ -87,150 +115,24 @@ require('./inc/header.php')
 						<!-- tab -->
 						<div id="tab1" class="tab-pane active">
 							<div class="products-slick" data-nav="#slick-nav-1">
-								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="images/product01.png" alt="">
-										<div class="product-label">
-											<span class="sale">-30%</span>
-											<span class="new">NEW</span>
-										</div>
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-									</div>
-								</div>
-								<!-- /product -->
-
-								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="images/product02.png" alt="">
-										<div class="product-label">
-											<span class="new">NEW</span>
-										</div>
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-o"></i>
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-									</div>
-								</div>
-								<!-- /product -->
-
-								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="images/product03.png" alt="">
-										<div class="product-label">
-											<span class="sale">-30%</span>
-										</div>
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-									</div>
-								</div>
-								<!-- /product -->
-
-								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="images/product04.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-									</div>
-								</div>
-								<!-- /product -->
-
-								<!-- product -->
-								<div class="product">
-									<div class="product-img">
-										<img src="images/product05.png" alt="">
-									</div>
-									<div class="product-body">
-										<p class="product-category">Category</p>
-										<h3 class="product-name"><a href="#">product name goes here</a></h3>
-										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-										<div class="product-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-										</div>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-									</div>
-								</div>
-								<!-- /product -->
+								<?php
+								// function handleSelectBrand($brand)
+								// {
+								// $sql = 'SELECT tbl_product.name, tbl_product.price, tbl_product.image, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type
+								// 	FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand`
+								// 	WHERE tbl_product.type_id = tbl_category_type.id
+								// 	AND   tbl_category_type.brand_id = tbl_brand.id
+								// 	AND   tbl_brand.name = ' . $brand . '
+								// 	ORDER BY tbl_product.updated_date ASC;';
+								$sql = 'SELECT DISTINCT tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+									FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
+									WHERE tbl_product.type_id = tbl_category_type.id
+									AND   tbl_category_type.brand_id = tbl_brand.id
+									AND tbl_product_details.id_product = tbl_product.id
+									ORDER BY tbl_product.create_date ASC;';
+								renderListProduct($sql);
+								// }
+								?>
 							</div>
 							<div id="slick-nav-1" class="products-slick-nav"></div>
 						</div>
@@ -246,7 +148,7 @@ require('./inc/header.php')
 </div>
 <!-- /SECTION -->
 
-<!-- HOT DEAL SECTION -->
+<!-- COUNTDOWN Section -->
 <div id="hot-deal" class="section">
 	<!-- container -->
 	<div class="container">
@@ -257,32 +159,32 @@ require('./inc/header.php')
 					<ul class="hot-deal-countdown">
 						<li>
 							<div>
-								<h3>02</h3>
+								<h3 id="countdown_days">9</h3>
 								<span>Days</span>
 							</div>
 						</li>
 						<li>
 							<div>
-								<h3>10</h3>
+								<h3 id="countdown_hours">9</h3>
 								<span>Hours</span>
 							</div>
 						</li>
 						<li>
 							<div>
-								<h3>34</h3>
+								<h3 id="countdown_minutes">9</h3>
 								<span>Mins</span>
 							</div>
 						</li>
 						<li>
 							<div>
-								<h3>60</h3>
+								<h3 id="countdown_seconds">9</h3>
 								<span>Secs</span>
 							</div>
 						</li>
 					</ul>
-					<h2 class="text-uppercase">hot deal this week</h2>
-					<p>New Collection Up to 50% OFF</p>
-					<a class="primary-btn cta-btn" href="#">Shop now</a>
+					<h2 class="text-uppercase">Khuyến mãi sốc trong tuần</h2>
+					<p>Sale Up to 60%</p>
+					<a class="primary-btn cta-btn" href="#">Xem ngay</a>
 				</div>
 			</div>
 		</div>
@@ -290,7 +192,7 @@ require('./inc/header.php')
 	</div>
 	<!-- /container -->
 </div>
-<!-- /HOT DEAL SECTION -->
+<!-- /COUNTDOWN Section -->
 
 <!-- SECTION -->
 <div class="section">
@@ -322,47 +224,15 @@ require('./inc/header.php')
 						<!-- tab -->
 						<div id="tab2" class="tab-pane fade in active">
 							<div class="products-slick" data-nav="#slick-nav-2">
+								<!-- product -->
 								<?php
 								// Lay cac san pham tu database
-								$sql 		 = 'select * from tbl_product';
-								$listProduct = executeResult($sql);
-								// lay cac loai sp
-								foreach ($listProduct as $item) {
-									$price 	     = number_format($item['price'], 0, ',', '.');
-									$oldprice    = number_format($item['price'] + 1000000, 0, ',', '.');
-									$sqlBrand    = 'select name from tbl_category_type where id = ' . $item['type_id'] . '';
-									$brand 	     = executeResult($sqlBrand);
-									$salePercent = number_format((1000000 * 100) / $item['price'], 0);
-									echo '<div class="product">
-										<div class="product-img">
-											<img src=' . $item['image'] . ' style="object-fit:contain"  height="267" alt="Image Product">
-											<div class="product-label">
-												<span class="sale">- ' . $salePercent . '%</span>
-												<span class="new">NEW</span>
-											</div>
-										</div>
-										<div class="product-body">
-											<p class="product-category">' . $brand[0]['name'] . '</p>
-											<h3 class="product-name"><a href="#">' . $item['name'] . '</a></h3>
-											<h4 class="product-price">₫ ' . $price . ' <del class="product-old-price">₫ ' . $oldprice . '</del></h4>
-											<div class="product-rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div>
-											<div class="product-btns">
-												<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-												<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-												<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-											</div>
-										</div>
-										<div class="add-to-cart">
-											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
-										</div>
-									</div>';
-								}
+								$sql = 'SELECT tbl_product.name, tbl_product.price, tbl_product.old_price,tbl_product.create_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url, tbl_product.sold 
+								FROM tbl_product INNER JOIN tbl_category_type INNER JOIN tbl_product_details
+								WHERE tbl_product.type_id = tbl_category_type.id
+								AND tbl_product_details.id_product = tbl_product.id
+								GROUP BY tbl_product.sold DESC, tbl_product.id;';
+								renderListProduct($sql);
 								?>
 								<!-- /product -->
 							</div>
@@ -674,42 +544,7 @@ require('./inc/header.php')
 </div>
 <!-- /SECTION -->
 
-<!-- NEWSLETTER -->
-<div id="newsletter" class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
-			<div class="col-md-12">
-				<div class="newsletter">
-					<p>Đăng ký để nhận <strong>Gift Voucher</strong> và Deals Hot</p>
-					<form>
-						<input class="input" type="email" placeholder="Nhập Email của bạn...">
-						<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng ký</button>
-					</form>
-					<ul class="newsletter-follow">
-						<li>
-							<a href="#"><i class="fa fa-facebook"></i></a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-twitter"></i></a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-instagram"></i></a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-pinterest"></i></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /row -->
-	</div>
-	<!-- /container -->
-</div>
-<!-- /NEWSLETTER -->
 
 <?php
-require('./inc/footer.php')
+require('./inc/footer.php');
 ?>
