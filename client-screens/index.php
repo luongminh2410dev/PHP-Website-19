@@ -1,6 +1,7 @@
 <?php
 require('./inc/header.php');
 require('../functions/functionHelper.php');
+$current_new_products = isset($_GET['new_product']) ? $_GET['new_product'] : null;
 ?>
 <!-- COUNTDOWN Script -->
 <script>
@@ -84,7 +85,7 @@ require('../functions/functionHelper.php');
 </div>
 <!-- /SECTION -->
 
-<!-- SECTION -->
+<!-- NEW PRODUCTS -->
 <div class="section">
 	<!-- container -->
 	<div class="container">
@@ -97,11 +98,17 @@ require('../functions/functionHelper.php');
 					<h3 class="title">Sản phẩm mới</h3>
 					<div class="section-nav">
 						<ul class="section-tab-nav tab-nav">
-							<li class="active"><a data-toggle="tab" href="#tab1">Tất cả</a></li>
-							<li><a onclick="handleSelectBrand('Asus')" data-toggle="tab" href="#tab1">Asus</a></li>
-							<li><a onclick="handleSelectBrand('Dell')" data-toggle="tab" href="#tab1">Dell</a></li>
-							<li><a onclick="handleSelectBrand('Acer')" data-toggle="tab" href="#tab1">Acer</a></li>
-							<li><a onclick="handleSelectBrand('HP')" data-toggle="tab" href="#tab1">HP</a></li>
+							<?php
+							// $sql = 'SELECT name FROM tbl_brand';
+							// $result = executeResult($sql);
+							// foreach ($result as $item) {
+							// 	if ($item['name'] == $current_new_products) {
+							// 		echo '<li> class="active"><a href="index.php?new_product=' . $item['name'] . '" data-toggle="tab">' . $item['name'] . '</a></li>';
+							// 	} else {
+							// 		echo '<li><a href="index.php?new_product=' . $item['name'] . '" data-toggle="tab">' . $item['name'] . '</a></li>';
+							// 	}
+							// }
+							?>
 						</ul>
 					</div>
 				</div>
@@ -116,22 +123,25 @@ require('../functions/functionHelper.php');
 						<div id="tab1" class="tab-pane active">
 							<div class="products-slick" data-nav="#slick-nav-1">
 								<?php
-								// function handleSelectBrand($brand)
-								// {
-								// $sql = 'SELECT tbl_product.name, tbl_product.price, tbl_product.image, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type
-								// 	FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand`
-								// 	WHERE tbl_product.type_id = tbl_category_type.id
-								// 	AND   tbl_category_type.brand_id = tbl_brand.id
-								// 	AND   tbl_brand.name = ' . $brand . '
-								// 	ORDER BY tbl_product.updated_date ASC;';
-								$sql = 'SELECT DISTINCT tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+								$sql = $current_new_products == null ?
+									'SELECT DISTINCT tbl_product.id, tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
 									FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
 									WHERE tbl_product.type_id = tbl_category_type.id
 									AND   tbl_category_type.brand_id = tbl_brand.id
 									AND tbl_product_details.id_product = tbl_product.id
-									ORDER BY tbl_product.create_date ASC;';
-								renderListProduct($sql);
-								// }
+									ORDER BY tbl_product.create_date DESC
+									LIMIT 0,12;'
+									:
+									'SELECT DISTINCT tbl_product.id,tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+									FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
+									WHERE tbl_product.type_id = tbl_category_type.id
+									AND   tbl_category_type.brand_id = tbl_brand.id
+									AND tbl_product_details.id_product = tbl_product.id
+									AND tbl_brand.name = ' . $current_new_products . '
+									ORDER BY tbl_product.create_date ASC
+									LIMIT 0,8;';
+
+								renderListProduct($sql, null);
 								?>
 							</div>
 							<div id="slick-nav-1" class="products-slick-nav"></div>
@@ -146,7 +156,7 @@ require('../functions/functionHelper.php');
 	</div>
 	<!-- /container -->
 </div>
-<!-- /SECTION -->
+<!-- /NEW PRODUCTS -->
 
 <!-- COUNTDOWN Section -->
 <div id="hot-deal" class="section">
@@ -194,7 +204,7 @@ require('../functions/functionHelper.php');
 </div>
 <!-- /COUNTDOWN Section -->
 
-<!-- SECTION -->
+<!-- TOP BÁN CHẠY -->
 <div class="section">
 	<!-- container -->
 	<div class="container">
@@ -227,12 +237,15 @@ require('../functions/functionHelper.php');
 								<!-- product -->
 								<?php
 								// Lay cac san pham tu database
-								$sql = 'SELECT tbl_product.name, tbl_product.price, tbl_product.old_price,tbl_product.create_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url, tbl_product.sold 
+								$sql = 'SELECT tbl_product.id,tbl_product.name, tbl_product.price, tbl_product.old_price,
+								tbl_product.create_date, tbl_category_type.name AS brand_type, 
+								tbl_product_details.image_url, tbl_product.sold 
 								FROM tbl_product INNER JOIN tbl_category_type INNER JOIN tbl_product_details
 								WHERE tbl_product.type_id = tbl_category_type.id
 								AND tbl_product_details.id_product = tbl_product.id
-								GROUP BY tbl_product.sold DESC, tbl_product.id;';
-								renderListProduct($sql);
+								GROUP BY tbl_product.sold DESC, tbl_product.id
+								LIMIT 0,8;';
+								renderListProduct($sql, null);
 								?>
 								<!-- /product -->
 							</div>
@@ -248,7 +261,7 @@ require('../functions/functionHelper.php');
 	</div>
 	<!-- /container -->
 </div>
-<!-- /SECTION -->
+<!-- /TOP BÁN CHẠY -->
 
 <!-- SECTION -->
 <div class="section">

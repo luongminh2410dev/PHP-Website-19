@@ -1,6 +1,7 @@
 <?php
-function renderListProduct($sql)
+function renderListProduct($sql, $grid)
 {
+	$newGrid 	 = is_string($grid) ? $grid : 'col-md-4 col-xs-6';
 	$listProduct = executeResult($sql);
 	is_array($listProduct) ? array_splice($listProduct, 12) : null;
 	// lay cac loai sp
@@ -22,11 +23,11 @@ function renderListProduct($sql)
 		$isNew = 'none';
 		$date = strtotime($item['create_date']);
 		$remaining =  time() - $date;
-		if (floor($remaining / 86400) < 30) {
+		if (floor($remaining / 86400) < 5) {
 			$isNew = 'inline-block';
 		}
-		echo '<div class="col-md-4 col-xs-6">
-		<div class="product">
+		echo '<div class="' . $newGrid . '">
+		<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product">
 			<div class="product-img">
 				<img src=' . $item['image_url'] . ' style="object-fit:contain; padding: 0 10px 0 10px;"  height="280" alt="Image Product">
 				<div class="product-label">
@@ -52,7 +53,7 @@ function renderListProduct($sql)
 				</div>
 			</div>
 			<div class="add-to-cart">
-				<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
+				<button onclick="handleAddToCart()" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
 			</div>
 		</div>
 		</div>';

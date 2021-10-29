@@ -1,6 +1,27 @@
 <?php
 require('../functions/functionHelper.php');
 require('./inc/header.php');
+$product_id   = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
+// get image product
+$sql	      = 'SELECT * FROM tbl_product_details WHERE tbl_product_details.id_product = ' . $product_id . '';
+$listImage    = executeResult($sql);
+// get details product
+$sqlDetail    = 'SELECT * FROM tbl_product WHERE id = ' . $product_id . '';
+$product      = executeResult($sqlDetail)[0];
+$price        = number_format($product['price'], 0, ',', '.');
+if ($product['old_price'] != 0) {
+	$oldprice = number_format($product['old_price'], 0, ',', '.');
+} else {
+	$oldprice = 'none';
+}
+$status 	  = $product['total'] - $product['sold'] > 0 ? 'Còn hàng' : 'Hết hàng';
+$colorStatus  = $product['total'] - $product['sold'] > 0 ? 'rgb(8,240,45)' : 'rgb(209,0,36)';
+// get brand
+$sqlBrand 	  = 'SELECT tbl_brand.name AS brand_name, tbl_category_type.name AS cat_name
+				FROM tbl_brand INNER JOIN tbl_category_type 
+				WHERE tbl_category_type.brand_id = tbl_brand.id
+				AND tbl_category_type.id = ' . $product['type_id'] . '';
+$brand    	  = executeResult($sqlBrand)[0];
 ?>
 
 <!-- SECTION -->
@@ -12,21 +33,13 @@ require('./inc/header.php');
 			<!-- Product main img -->
 			<div class="col-md-5 col-md-push-2">
 				<div id="product-main-img">
-					<div class="product-preview">
-						<img src="images/product01.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product03.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product06.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product08.png" alt="">
-					</div>
+					<?php
+					foreach ($listImage as $item) {
+						echo '<div class="product-preview">
+									<img src="' . $item['image_url'] . '" alt="">
+								</div>';
+					}
+					?>
 				</div>
 			</div>
 			<!-- /Product main img -->
@@ -34,93 +47,79 @@ require('./inc/header.php');
 			<!-- Product thumb imgs -->
 			<div class="col-md-2  col-md-pull-5">
 				<div id="product-imgs">
-					<div class="product-preview">
-						<img src="images/product01.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product03.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product06.png" alt="">
-					</div>
-
-					<div class="product-preview">
-						<img src="images/product08.png" alt="">
-					</div>
+					<?php
+					foreach ($listImage as $item) {
+						echo '<div class="product-preview">
+									<img style="width: auto; height:150px;" src="' . $item['image_url'] . '" alt="">
+								</div>';
+					}
+					?>
 				</div>
 			</div>
 			<!-- /Product thumb imgs -->
 
 			<!-- Product details -->
-			<div class="col-md-5">
-				<div class="product-details">
-					<h2 class="product-name">product name goes here</h2>
-					<div>
-						<div class="product-rating">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star-o"></i>
-						</div>
-						<a class="review-link" href="#">10 Review(s) | Add your review</a>
+			<?php
+			echo '<div class="col-md-5">
+			<div class="product-details">
+				<h2 class="product-name">' . $product['name'] . '</h2>
+				<div>
+					<div class="product-rating">
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star-o"></i>
 					</div>
-					<div>
-						<h3 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h3>
-						<span class="product-available">In Stock</span>
-					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-					<div class="product-options">
-						<label>
-							Size
-							<select class="input-select">
-								<option value="0">X</option>
-							</select>
-						</label>
-						<label>
-							Color
-							<select class="input-select">
-								<option value="0">Red</option>
-							</select>
-						</label>
-					</div>
-
-					<div class="add-to-cart">
-						<div class="qty-label">
-							Qty
-							<div class="input-number">
-								<input type="number">
-								<span class="qty-up">+</span>
-								<span class="qty-down">-</span>
-							</div>
-						</div>
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-
-					<ul class="product-btns">
-						<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-						<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
-					</ul>
-
-					<ul class="product-links">
-						<li>Category:</li>
-						<li><a href="#">Headphones</a></li>
-						<li><a href="#">Accessories</a></li>
-					</ul>
-
-					<ul class="product-links">
-						<li>Share:</li>
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-						<li><a href="#"><i class="fa fa-envelope"></i></a></li>
-					</ul>
-
+					<a class="review-link" href="#">10 Review(s) | Add your review</a>
 				</div>
+				<div>
+					<h3 class="product-price">₫ ' . $price . ' <del style="display: ' . $oldprice . '" class="product-old-price">₫ ' . $oldprice . '</del></h3>
+					<span style="color: ' . $colorStatus . '" class="product-available">' . $status . '</span>
+				</div>
+				<p>' . $product['description'] . '</p>
+
+				<div class="product-options">
+					<label>
+						<p>Số lượng</p>
+						<div class="input-number">
+							<input type="number" value="1">
+							<span class="qty-up">+</span>
+							<span class="qty-down">-</span>
+						</div>
+					</label>
+					<label>
+						<p>Màu sắc</p>
+						<select class="input-select">
+							<option value="0">Xám</option>
+							<option value="0">Vàng Gold</option>
+							<option value="0">Hồng</option>
+						</select>
+					</label>
+				</div>
+
+				<div class="add-to-cart">
+					<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+				</div>
+
+					<a href="#"><i class="fa fa-heart-o"></i> Thêm vào danh sách ước</a>
+				<ul class="product-links">
+					<li>Thương hiệu:</li>
+					<li><a href="#">' . $brand['brand_name'] . '</a></li>
+					<li><a href="#">' . $brand['cat_name'] . '</a></li>
+				</ul>
+
+				<ul class="product-links">
+					<li>Share:</li>
+					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+					<li><a href="#"><i class="fa fa-envelope"></i></a></li>
+				</ul>
+
 			</div>
+		</div>';
+			?>
 			<!-- /Product details -->
 
 			<!-- Product tab -->
@@ -128,9 +127,9 @@ require('./inc/header.php');
 				<div id="product-tab">
 					<!-- product tab nav -->
 					<ul class="tab-nav">
-						<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-						<li><a data-toggle="tab" href="#tab2">Details</a></li>
-						<li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+						<li class="active"><a data-toggle="tab" href="#tab1">Tổng quan</a></li>
+						<li><a data-toggle="tab" href="#tab2">Chi tiết</a></li>
+						<li><a data-toggle="tab" href="#tab3">Đánh giá (3)</a></li>
 					</ul>
 					<!-- /product tab nav -->
 
@@ -140,7 +139,9 @@ require('./inc/header.php');
 						<div id="tab1" class="tab-pane fade in active">
 							<div class="row">
 								<div class="col-md-12">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+									<?php
+									echo '<p>' . $product['description'] . '</p>';
+									?>
 								</div>
 							</div>
 						</div>
@@ -150,7 +151,45 @@ require('./inc/header.php');
 						<div id="tab2" class="tab-pane fade in">
 							<div class="row">
 								<div class="col-md-12">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+									<h3 class="modal-title">Thông số kỹ thuật</h3>
+									<?php
+									echo '<table style="max-width: 600px; margin-top: 12px; margin-inline: auto;" class="table table-striped">
+										<tbody>
+											<tr>
+												<th scope="row">Loại CPU</th>
+												<td>' . $product['cpu'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Loại card đồ họa</th>
+												<td>' . $product['vga'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Dung lượng RAM</th>
+												<td>' . $product['ram'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Ổ cứng</th>
+												<td>' . $product['storage'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Màn hình</th>
+												<td>' . $product['screen'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Cổng giao tiếp</th>
+												<td>' . $product['connect'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Hệ điều hành</th>
+												<td>' . $product['os'] . '</td>
+											</tr>
+											<tr>
+												<th scope="row">Pin</th>
+												<td>' . $product['battery'] . '</td>
+											</tr>
+										</tbody>
+									</table>';
+									?>
 								</div>
 							</div>
 						</div>
@@ -353,127 +392,20 @@ require('./inc/header.php');
 
 			<div class="col-md-12">
 				<div class="section-title text-center">
-					<h3 class="title">Related Products</h3>
+					<h3 class="title">Các sản phẩm cùng loại</h3>
 				</div>
 			</div>
-
-			<!-- product -->
-			<div class="col-md-3 col-xs-6">
-				<div class="product">
-					<div class="product-img">
-						<img src="images/product01.png" alt="">
-						<div class="product-label">
-							<span class="sale">-30%</span>
-						</div>
-					</div>
-					<div class="product-body">
-						<p class="product-category">Category</p>
-						<h3 class="product-name"><a href="#">product name goes here</a></h3>
-						<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						<div class="product-rating">
-						</div>
-						<div class="product-btns">
-							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-						</div>
-					</div>
-					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-				</div>
-			</div>
-			<!-- /product -->
-
-			<!-- product -->
-			<div class="col-md-3 col-xs-6">
-				<div class="product">
-					<div class="product-img">
-						<img src="images/product02.png" alt="">
-						<div class="product-label">
-							<span class="new">NEW</span>
-						</div>
-					</div>
-					<div class="product-body">
-						<p class="product-category">Category</p>
-						<h3 class="product-name"><a href="#">product name goes here</a></h3>
-						<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						<div class="product-rating">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product-btns">
-							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-						</div>
-					</div>
-					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-				</div>
-			</div>
-			<!-- /product -->
-
-			<div class="clearfix visible-sm visible-xs"></div>
-
-			<!-- product -->
-			<div class="col-md-3 col-xs-6">
-				<div class="product">
-					<div class="product-img">
-						<img src="images/product03.png" alt="">
-					</div>
-					<div class="product-body">
-						<p class="product-category">Category</p>
-						<h3 class="product-name"><a href="#">product name goes here</a></h3>
-						<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						<div class="product-rating">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star-o"></i>
-						</div>
-						<div class="product-btns">
-							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-						</div>
-					</div>
-					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-				</div>
-			</div>
-			<!-- /product -->
-
-			<!-- product -->
-			<div class="col-md-3 col-xs-6">
-				<div class="product">
-					<div class="product-img">
-						<img src="images/product04.png" alt="">
-					</div>
-					<div class="product-body">
-						<p class="product-category">Category</p>
-						<h3 class="product-name"><a href="#">product name goes here</a></h3>
-						<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						<div class="product-rating">
-						</div>
-						<div class="product-btns">
-							<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-							<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-							<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-						</div>
-					</div>
-					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-				</div>
-			</div>
-			<!-- /product -->
+			<?php
+			$sqlRelateProduct = 'SELECT tbl_product.id, tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+			FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_product_details`
+			WHERE tbl_product.type_id = tbl_category_type.id
+			AND tbl_product_details.id_product = tbl_product.id
+			AND tbl_category_type.id = ' . $product['type_id'] . '
+			GROUP BY tbl_product.id
+			LIMIT 0,4;';
+			$grid = 'col-md-3 col-xs-6';
+			renderListProduct($sqlRelateProduct, $grid);
+			?>
 
 		</div>
 		<!-- /row -->

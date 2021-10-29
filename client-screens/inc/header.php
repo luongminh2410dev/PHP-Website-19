@@ -30,6 +30,7 @@ require('../database/dbHelper.php')
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
+    <!-- AJAX -->
 </head>
 
 <body>
@@ -70,15 +71,27 @@ require('../database/dbHelper.php')
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <select class="input-select">
+                            <form method="POST">
+                                <select name="option_search" class="input-select">
                                     <option value="0">Search</option>
                                     <option value="1">Gaming</option>
-                                    <option value="1">Văn phòng</option>
+                                    <option value="2">Văn phòng</option>
                                 </select>
-                                <input class="input" placeholder="Bạn muốn tìm....">
-                                <button class="search-btn">Tìm kiếm</button>
+                                <input class="input" name="search" placeholder="Bạn muốn tìm....">
+                                <button name="btn_search" class="search-btn">Tìm kiếm</button>
                             </form>
+                            <?php
+                            if (isset($_POST['btn_search'])) {
+                                $option = stripslashes($_POST['option_search']);
+                                $search = stripslashes($_POST['search']);
+                                if (empty($search)) {
+                                    echo "<script type='text/javascript'>alert('Bạn phải nhập từ khoá tìm kiếm');</script>";
+                                } else {
+                                    $search_url = 'Location:blank.php?search=' . $search;
+                                    header($search_url);
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                     <!-- /SEARCH BAR -->
@@ -166,14 +179,12 @@ require('../database/dbHelper.php')
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="index.php">Home</a></li>
                     <li><a href="#">Hot Deals</a></li>
                     <li><a href="store.php">Laptop Theo Hãng</a></li>
                     <li><a href="#">Laptop Văn Phòng</a></li>
                     <li><a href="#">Laptops Gaming</a></li>
                     <li><a href="#">Linh, Phụ Kiện Laptop</a></li>
-                    <!-- <li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li> -->
                 </ul>
                 <!-- /NAV -->
             </div>

@@ -2,21 +2,14 @@
 require('./inc/header.php');
 require('../functions/functionHelper.php');
 
-// PHẦN XỬ LÝ PHP
-// BƯỚC 1: KẾT NỐI CSDL
-
-// BƯỚC 2: TÌM TỔNG SỐ RECORDS
-// $query = mysqli_query($conn, 'select count(id) as total from tbl_product');
-// $row = mysqli_fetch_assoc($result);
-// $total_records = $row['total'];
 $query = 'select count(id) as total from tbl_product';
 $row = executeOneResult($query);
 $total_records = $row['total'];
-// BƯỚC 3: TÌM LIMIT VÀ CURRENT_PAGE
+//TÌM LIMIT VÀ CURRENT_PAGE
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 9;
 
-// BƯỚC 4: TÍNH TOÁN TOTAL_PAGE VÀ START
+// TÍNH TOÁN TOTAL_PAGE VÀ START
 // tổng số trang
 $total_page = ceil($total_records / $limit);
 
@@ -156,14 +149,6 @@ $start = ($current_page - 1) * $limit;
 								<option value="1">Giảm giá mạnh</option>
 							</select>
 						</label>
-
-						<!-- <label>
-							Show:
-							<select class="input-select">
-								<option value="0">20</option>
-								<option value="1">50</option>
-							</select>
-						</label> -->
 					</div>
 					<ul class="store-grid">
 						<li class="active"><i class="fa fa-th"></i></li>
@@ -175,7 +160,7 @@ $start = ($current_page - 1) * $limit;
 				<!-- store products -->
 				<div class="row">
 					<?php
-					$querySelectProduct = "SELECT tbl_product.name,tbl_product.price , tbl_product.old_price,
+					$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
 					tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
 					FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
 					WHERE tbl_product.type_id = tbl_category_type.id 
@@ -183,7 +168,7 @@ $start = ($current_page - 1) * $limit;
 					GROUP BY tbl_product.id
 					LIMIT $start, $limit";
 					// $listProduct = executeResult($querySelectProduct);
-					renderListProduct($querySelectProduct);
+					renderListProduct($querySelectProduct, null);
 					?>
 				</div>
 				<!-- /store products -->

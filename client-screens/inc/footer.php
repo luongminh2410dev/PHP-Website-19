@@ -195,6 +195,12 @@
         $('#register-form').removeClass('show-form');
         $('#register-form').addClass('hide-form');
     }
+    // handle when user click into product
+    function handleRedirectProduct($id) {
+        $href = 'product.php?product_id=' + $id;
+        $(location).prop('href', $href);
+    }
+    // 
 </script>
 <!-- jQuery Plugins -->
 <script src="./js/jquery.min.js"></script>
@@ -203,6 +209,7 @@
 <script src="./js/nouislider.min.js"></script>
 <script src="./js/jquery.zoom.min.js"></script>
 <script src="./js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 </body>
 
