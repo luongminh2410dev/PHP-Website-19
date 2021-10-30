@@ -108,7 +108,7 @@ $start = ($current_page - 1) * $limit;
 				<div class="aside">
 					<h3 class="aside-title">Top bán chạy</h3>
 					<?php
-					$sql = 'SELECT tbl_product.name, tbl_product.price,tbl_product_details.image_url AS image, tbl_category_type.name AS brand_type 
+					$sql = 'SELECT tbl_product.id, tbl_product.name, tbl_product.price,tbl_product_details.image_url AS image, tbl_category_type.name AS brand_type 
 					FROM tbl_product INNER JOIN tbl_category_type INNER JOIN tbl_product_details
 					WHERE tbl_product.type_id = tbl_category_type.id
 					AND tbl_product_details.id_product = tbl_product.id
@@ -118,7 +118,7 @@ $start = ($current_page - 1) * $limit;
 					foreach ($listTopSelling as $item) {
 						$price          = number_format($item['price'], 0, ',', '.');
 						$old_price		= number_format($item['price'] + 1000000, 0, ',', '.');
-						echo '<div class="product-widget">
+						echo '<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product-widget">
 							<div class="product-img">
 								<img src="' . $item['image'] . '" alt="">
 							</div>
@@ -145,8 +145,8 @@ $start = ($current_page - 1) * $limit;
 							<select class="input-select">
 								<option value="0">Phổ biến</option>
 								<option value="1">Giá từ thấp đến cao</option>
-								<option value="1">Giá từ cao đến thấp</option>
-								<option value="1">Giảm giá mạnh</option>
+								<option value="2">Giá từ cao đến thấp</option>
+								<option value="3">Giảm giá mạnh</option>
 							</select>
 						</label>
 					</div>
@@ -160,6 +160,13 @@ $start = ($current_page - 1) * $limit;
 				<!-- store products -->
 				<div class="row">
 					<?php
+					// SELECT  tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
+					// tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+					// FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+					// WHERE tbl_product.type_id = tbl_category_type.id 
+					// AND tbl_product_details.id_product = tbl_product.id
+					// GROUP BY tbl_product.id
+					// ORDER BY tbl_product.sold DESC
 					$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
 					tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
 					FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
@@ -167,7 +174,6 @@ $start = ($current_page - 1) * $limit;
 					AND tbl_product_details.id_product = tbl_product.id
 					GROUP BY tbl_product.id
 					LIMIT $start, $limit";
-					// $listProduct = executeResult($querySelectProduct);
 					renderListProduct($querySelectProduct, null);
 					?>
 				</div>

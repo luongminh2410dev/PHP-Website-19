@@ -8,14 +8,17 @@ $listImage    = executeResult($sql);
 // get details product
 $sqlDetail    = 'SELECT * FROM tbl_product WHERE id = ' . $product_id . '';
 $product      = executeResult($sqlDetail)[0];
+// price
 $price        = number_format($product['price'], 0, ',', '.');
-if ($product['old_price'] != 0) {
+if ($product['old_price'] > $product['price']) {
 	$oldprice = number_format($product['old_price'], 0, ',', '.');
 } else {
 	$oldprice = 'none';
 }
-$status 	  = $product['total'] - $product['sold'] > 0 ? 'Còn hàng' : 'Hết hàng';
-$colorStatus  = $product['total'] - $product['sold'] > 0 ? 'rgb(8,240,45)' : 'rgb(209,0,36)';
+// status
+$status 	  = $product['total'] <= $product['sold'] ? 'Đã hết hàng' : 'Thêm vào giỏ hàng';
+$isDisable    = $product['total'] <= $product['sold'] ? 'disabled' : null;
+$iconDisable  = $product['total'] <= $product['sold'] ? '<i class="fas fa-ban"></i>' : '<i class="fa fa-shopping-cart"></i>';
 // get brand
 $sqlBrand 	  = 'SELECT tbl_brand.name AS brand_name, tbl_category_type.name AS cat_name
 				FROM tbl_brand INNER JOIN tbl_category_type 
@@ -75,9 +78,8 @@ $brand    	  = executeResult($sqlBrand)[0];
 				</div>
 				<div>
 					<h3 class="product-price">₫ ' . $price . ' <del style="display: ' . $oldprice . '" class="product-old-price">₫ ' . $oldprice . '</del></h3>
-					<span style="color: ' . $colorStatus . '" class="product-available">' . $status . '</span>
 				</div>
-				<p>' . $product['description'] . '</p>
+				<p>' . $product['introtext'] . '</p>
 
 				<div class="product-options">
 					<label>
@@ -99,7 +101,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 				</div>
 
 				<div class="add-to-cart">
-					<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+					<button class="add-to-cart-btn" ' . $isDisable . ' >' . $iconDisable . '' . $status . '</button>
 				</div>
 
 					<a href="#"><i class="fa fa-heart-o"></i> Thêm vào danh sách ước</a>
@@ -117,8 +119,8 @@ $brand    	  = executeResult($sqlBrand)[0];
 					<li><a href="#"><i class="fa fa-envelope"></i></a></li>
 				</ul>
 
-			</div>
-		</div>';
+				</div>
+			</div>';
 			?>
 			<!-- /Product details -->
 
@@ -139,9 +141,11 @@ $brand    	  = executeResult($sqlBrand)[0];
 						<div id="tab1" class="tab-pane fade in active">
 							<div class="row">
 								<div class="col-md-12">
-									<?php
-									echo '<p>' . $product['description'] . '</p>';
-									?>
+									<div class="blog-content">
+										<?php
+										echo $product['description'];
+										?>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -401,6 +405,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 			WHERE tbl_product.type_id = tbl_category_type.id
 			AND tbl_product_details.id_product = tbl_product.id
 			AND tbl_category_type.id = ' . $product['type_id'] . '
+			AND tbl_product.id != ' . $product['id'] . '
 			GROUP BY tbl_product.id
 			LIMIT 0,4;';
 			$grid = 'col-md-3 col-xs-6';

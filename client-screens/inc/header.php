@@ -9,7 +9,7 @@ require('../database/dbHelper.php')
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Electro - HTML Ecommerce Template</title>
+    <title>Electro - Laptop Market</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -41,12 +41,17 @@ require('../database/dbHelper.php')
             <div class="container">
                 <ul class="header-links pull-left">
                     <li><a href="#"><i class="fa fa-phone"></i> +84-921-955-184 </a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> luongminh2410dev@gmail.com </a></li>
+                    <li><a href="#"><i class="far fa-envelope"></i> luongminh2410dev@gmail.com </a></li>
                     <li><a href="#"><i class="fa fa-map-marker"></i> Số 3 Cầu Giấy </a></li>
                 </ul>
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
-                    <li><a onclick="handleShowLoginForm()" id="btn_login" href="#"><i class="fa fa-user-o"></i> Đăng nhập </a></li>
+                    <li>
+                        <a onclick="handleShowLoginForm()" id="btn_login" href="#">
+                            <i class="far fa-user"></i>
+                            <!-- <i class="fa fa-user-o"></i>  -->
+                            Đăng nhập </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -61,7 +66,7 @@ require('../database/dbHelper.php')
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="#" class="logo">
+                            <a href="index.php" class="logo">
                                 <img src="./images/logo.png" alt="">
                             </a>
                         </div>
@@ -83,7 +88,7 @@ require('../database/dbHelper.php')
                             <?php
                             if (isset($_POST['btn_search'])) {
                                 $option = stripslashes($_POST['option_search']);
-                                $search = stripslashes($_POST['search']);
+                                $search = trim(stripslashes($_POST['search']));
                                 if (empty($search)) {
                                     echo "<script type='text/javascript'>alert('Bạn phải nhập từ khoá tìm kiếm');</script>";
                                 } else {
@@ -102,7 +107,8 @@ require('../database/dbHelper.php')
                             <!-- Wishlist -->
                             <div>
                                 <a href="#">
-                                    <i class="fa fa-heart-o"></i>
+                                    <!-- <i class="fa fa-heart-o"></i> -->
+                                    <i class="fas fa-heart"></i>
                                     <span>Wishlist</span>
                                     <div class="qty">2</div>
                                 </a>

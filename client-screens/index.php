@@ -123,23 +123,25 @@ $current_new_products = isset($_GET['new_product']) ? $_GET['new_product'] : nul
 						<div id="tab1" class="tab-pane active">
 							<div class="products-slick" data-nav="#slick-nav-1">
 								<?php
-								$sql = $current_new_products == null ?
+								$sql =
+									// $current_new_products == null ?
 									'SELECT DISTINCT tbl_product.id, tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
 									FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
 									WHERE tbl_product.type_id = tbl_category_type.id
 									AND   tbl_category_type.brand_id = tbl_brand.id
 									AND tbl_product_details.id_product = tbl_product.id
+									GROUP BY tbl_product.id
 									ORDER BY tbl_product.create_date DESC
-									LIMIT 0,12;'
-									:
-									'SELECT DISTINCT tbl_product.id,tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
-									FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
-									WHERE tbl_product.type_id = tbl_category_type.id
-									AND   tbl_category_type.brand_id = tbl_brand.id
-									AND tbl_product_details.id_product = tbl_product.id
-									AND tbl_brand.name = ' . $current_new_products . '
-									ORDER BY tbl_product.create_date ASC
-									LIMIT 0,8;';
+									LIMIT 0,12;';
+								// :
+								// 'SELECT DISTINCT tbl_product.id,tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+								// FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_brand` INNER JOIN `tbl_product_details`
+								// WHERE tbl_product.type_id = tbl_category_type.id
+								// AND   tbl_category_type.brand_id = tbl_brand.id
+								// AND tbl_product_details.id_product = tbl_product.id
+								// AND tbl_brand.name = ' . $current_new_products . '
+								// ORDER BY tbl_product.create_date ASC
+								// LIMIT 0,8;';
 
 								renderListProduct($sql, null);
 								?>
