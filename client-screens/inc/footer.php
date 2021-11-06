@@ -13,16 +13,16 @@
                     </form>
                     <ul class="newsletter-follow">
                         <li>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i style="font-size: 20px;" class="fab fa-facebook-square"></i></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i style="font-size: 20px;" class="fab fa-twitter"></i></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i style="font-size: 20px;" class="fab fa-instagram"></i></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="#"><i style="font-size: 20px;" class="fab fa-pinterest"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +49,7 @@
                         <ul class="footer-links">
                             <li><a href="#"><i class="fa fa-map-marker"></i> Số 3 Cầu Giấy </a></li>
                             <li><a href="#"><i class="fa fa-phone"></i> +84-921-955-184 </a></li>
-                            <li><a href="#"><i class="fa fa-envelope-o"></i>luongminh2410dev@gmail.com </a></li>
+                            <li><a href="#"><i class="far fa-envelope"></i>luongminh2410dev@gmail.com </a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,13 +71,12 @@
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Information</h3>
+                        <h3 class="footer-title">References</h3>
                         <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Orders and Returns</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a target="_blank" href="https://cellphones.com.vn/">CellphoneS</a></li>
+                            <li><a target="_blank" href="https://www.thegioididong.com/">Thegioididong</a></li>
+                            <li><a target="_blank" href="https://www.php.net/manual/en/index.php">PHP Manual</a></li>
+                            <li><a target="_blank" href="https://freetuts.net/">Freetuts</a></li>
                         </ul>
                     </div>
                 </div>
@@ -102,70 +101,11 @@
     <!-- /top footer -->
 
 </footer>
+<?php
+require('./inc/login-form.php');
+require('./inc/register-form.php');
+?>
 <!-- /FOOTER -->
-<!-- MODAL -->
-<div id="register-form" class="modal hide-form">
-    <div class="modal__overlay"></div>
-    <!-- Register -->
-    <div id="dialog_body" id="register-form" class="modal__body">
-        <div class="modal__body-main">
-            <div class="modal__body-header">
-                <span class="modal__body-header-one">Đăng ký</span>
-                <button onclick="handleRedirectLogin()" class="modal__body-header-two">Đăng nhập</button>
-            </div>
-            <form action="" method="POST">
-                <div class="modal__body-mainform">
-                    <input type="text" class="modal__body-mainform-input" placeholder="Username">
-                    <input type="password" class="modal__body-mainform-input" placeholder="Password">
-                    <input type="password" class="modal__body-mainform-input" placeholder="Phone Number">
-                </div>
-                <div class="modal__body-mainform-note">
-                    <p>Bằng việc đăng ký, bạn đã đồng ý với <b>Electro.</b> về
-                        <a href="#" class="modal__body-mainform-note-link">Điều khoản dịch vụ</a> &
-                        <a href="#" class="modal__body-mainform-note-link">Chính sách bảo mật</a>
-                    </p>
-                </div>
-                <div class="modal__control">
-                    <button onclick="handleRedirectLogin()" class="btn btn_cancel">TRỞ LẠI</button>
-                    <button class="btn btn_primary">ĐĂNG KÝ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div id="login-form" class="modal hide-form">
-    <div class="modal__overlay"></div>
-    <!-- Register -->
-    <div id="dialog_body" class="modal__body">
-        <div class="modal__body-main">
-            <div class="modal__body-header">
-                <span class="modal__body-header-one">Đăng nhập</span>
-                <button onclick="handleRedirectRegister()" class="modal__body-header-two">Đăng ký</button>
-            </div>
-            <form action="" method="POST">
-                <div class="modal__body-mainform">
-                    <input type="text" class="modal__body-mainform-input" placeholder="Username">
-                    <input type="password" class="modal__body-mainform-input" placeholder="Password">
-                </div>
-                <div class="modal__control">
-                    <button onclick="handleHideDialog()" class="btn btn_cancel">THOÁT</button>
-                    <button class="btn btn_primary">ĐĂNG NHẬP</button>
-                </div>
-            </form>
-        </div>
-        <div class="modal__connect">
-            <button class="btn btn_modal modal__connect_fb">
-                <i class="fab fa-facebook-square"></i>
-                <span class="modal__connect-text">Kết nối với Facebook</span>
-            </button>
-            <button class="btn btn_modal modal__connect_gg">
-                <i class="fab fa-google-plus-g"></i>
-                <span class="modal__connect-text"> Kết nối với Google</span>
-            </button>
-        </div>
-    </div>
-</div>
-<!-- /MODAL -->
 <script>
     function handleShowLoginForm() {
         $('#login-form').addClass('show-form');
@@ -201,9 +141,30 @@
         $(location).prop('href', $href);
     }
     // 
+    // // Turn off phone auth app verification.
+    // firebase.auth().settings.appVerificationDisabledForTesting = true;
+
+    // var phoneNumber = "+84975967842";
+    // var testVerificationCode = "123456";
+
+    // // This will render a fake reCAPTCHA as appVerificationDisabledForTesting is true.
+    // // This will resolve after rendering without app verification.
+    // var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    // // signInWithPhoneNumber will call appVerifier.verify() which will resolve with a fake
+    // // reCAPTCHA response.
+    // firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    //     .then(function(confirmationResult) {
+    //         alert('Here')
+    //         // confirmationResult can resolve with the fictional testVerificationCode above.
+    //         return confirmationResult.confirm(testVerificationCode)
+    //     }).catch(function(error) {
+    //         // Error; SMS not sent
+    //         // ...
+    //     });
 </script>
 <!-- jQuery Plugins -->
 <script src="./js/jquery.min.js"></script>
+<script src="./js/phone-auth.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/slick.min.js"></script>
 <script src="./js/nouislider.min.js"></script>

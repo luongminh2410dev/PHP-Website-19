@@ -3,10 +3,12 @@ require('./inc/header.php');
 require('../functions/functionHelper.php');
 
 $query = 'select count(id) as total from tbl_product';
+// $totalProduct = null;
 $row = executeOneResult($query);
 $total_records = $row['total'];
 //TÌM LIMIT VÀ CURRENT_PAGE
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$type_filter = isset($GET['ddf']) ? $GET['ddf'] : 1;
 $limit = 9;
 
 // TÍNH TOÁN TOTAL_PAGE VÀ START
@@ -22,7 +24,6 @@ if ($current_page > $total_page) {
 
 // Tìm Start
 $start = ($current_page - 1) * $limit;
-
 ?>
 
 <!-- SECTION -->
@@ -46,8 +47,8 @@ $start = ($current_page - 1) * $limit;
 						$listBrand = executeResult($sql);
 						foreach ($listBrand as $item) {
 							echo '<div class="input-checkbox">
-									<input type="checkbox" id="brand-1">
-									<label for="brand-1">
+									<input type="checkbox" class="brand" id="brand-' . $item['name'] . '">
+									<label for="brand-' . $item['name'] . '">
 										<span></span>
 										' . $item['name'] . '
 										<small>(' . $item['total'] . ')</small>
@@ -91,8 +92,8 @@ $start = ($current_page - 1) * $limit;
 						$listBrand = executeResult($sql);
 						foreach ($listBrand as $item) {
 							echo '<div class="input-checkbox">
-							<input type="checkbox" id="brand-1">
-							<label for="brand-1">
+							<input type="checkbox" id="brand-category-' . $item['name'] . '">
+							<label for="brand-category-' . $item['name'] . '">
 								<span></span>
 								' . $item['name'] . '
 								<small>(' . $item['total'] . ')</small>
@@ -140,15 +141,17 @@ $start = ($current_page - 1) * $limit;
 				<!-- store top filter -->
 				<div class="store-filter clearfix">
 					<div class="store-sort">
-						<label>
-							Sắp xếp theo:
-							<select class="input-select">
-								<option value="0">Phổ biến</option>
-								<option value="1">Giá từ thấp đến cao</option>
-								<option value="2">Giá từ cao đến thấp</option>
-								<option value="3">Giảm giá mạnh</option>
-							</select>
-						</label>
+						<form action="" method="POST">
+							<label>
+								Sắp xếp theo:
+								<select name="drop-down-filter" onchange="this.form.submit()" class="input-select">
+									<option <?php if (isset($_POST['drop-down-filter']) &&  $_POST['drop-down-filter'] == '1') echo "selected";  ?> value="1">Phổ biến</option>
+									<option <?php if (isset($_POST['drop-down-filter']) &&  $_POST['drop-down-filter'] == '2') echo "selected";  ?> value="2">Giá từ thấp đến cao</option>
+									<option <?php if (isset($_POST['drop-down-filter']) &&  $_POST['drop-down-filter'] == '3') echo "selected";  ?> value="3">Giá từ cao đến thấp</option>
+									<option <?php if (isset($_POST['drop-down-filter']) &&  $_POST['drop-down-filter'] == '4') echo "selected";  ?> value="4">Giảm giá mạnh</option>
+								</select>
+							</label>
+						</form>
 					</div>
 					<ul class="store-grid">
 						<li class="active"><i class="fa fa-th"></i></li>
@@ -160,31 +163,76 @@ $start = ($current_page - 1) * $limit;
 				<!-- store products -->
 				<div class="row">
 					<?php
-					// SELECT  tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
-					// tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
-					// FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
-					// WHERE tbl_product.type_id = tbl_category_type.id 
-					// AND tbl_product_details.id_product = tbl_product.id
-					// GROUP BY tbl_product.id
-					// ORDER BY tbl_product.sold DESC
 					$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
-					tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
-					FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
-					WHERE tbl_product.type_id = tbl_category_type.id 
-					AND tbl_product_details.id_product = tbl_product.id
-					GROUP BY tbl_product.id
-					LIMIT $start, $limit";
+						tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+						FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+						WHERE tbl_product.type_id = tbl_category_type.id 
+						AND tbl_product_details.id_product = tbl_product.id
+						GROUP BY tbl_product.id
+						LIMIT $start, $limit";
+					// DROP_DOWN_FILTER 
+					if ($_SERVER['REQUEST_METHOD'] == "POST") {
+						$error = array();
+						if (empty($_POST['drop-down-filter'])) {
+							$error['drop-down-filter'] = "Bạn cần chọn hình thức thanh toán";
+						} else {
+							$type_filter = $_POST['drop-down-filter'];
+						}
+						// Kiểm tra có lỗi hay không
+						if (empty($error)) {
+							$current_page = 1;
+							$start = ($current_page - 1) * $limit;
+						}
+					}
+					switch ($type_filter) {
+						case 1:
+							$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
+										tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+										FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+										WHERE tbl_product.type_id = tbl_category_type.id 
+										AND tbl_product_details.id_product = tbl_product.id
+										GROUP BY tbl_product.id
+										LIMIT $start, $limit";
+							break;
+						case 2:
+							$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
+										tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+										FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+										WHERE tbl_product.type_id = tbl_category_type.id 
+										AND tbl_product_details.id_product = tbl_product.id
+										GROUP BY tbl_product.price ASC,tbl_product.id
+										LIMIT $start, $limit";
+							break;
+						case 3:
+							$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
+										tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+										FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+										WHERE tbl_product.type_id = tbl_category_type.id 
+										AND tbl_product_details.id_product = tbl_product.id
+										GROUP BY tbl_product.price DESC,tbl_product.id
+										LIMIT $start, $limit;";
+							break;
+						case 4:
+							$querySelectProduct = "SELECT tbl_product.id, tbl_product.name,tbl_product.price , tbl_product.old_price,
+										tbl_product.sold, tbl_product.create_date,tbl_product_details.image_url, tbl_category_type.name AS brand_type
+										FROM tbl_product INNER JOIN tbl_product_details INNER JOIN tbl_category_type
+										WHERE tbl_product.type_id = tbl_category_type.id 
+										AND tbl_product_details.id_product = tbl_product.id
+										GROUP BY tbl_product.old_price - tbl_product.price DESC,tbl_product.id
+										LIMIT $start, $limit";
+							break;
+					}
 					renderListProduct($querySelectProduct, null);
 					?>
 				</div>
 				<!-- /store products -->
 
-				<!-- store bottom filter -->
+				<!-- store paging -->
 				<div class="store-filter clearfix">
 					<ul class="store-pagination">
 						<?php
 						if ($current_page > 1 && $total_page > 1) {
-							echo '<li><a href="store.php?page=' . ($current_page - 1) . '"><i class="fa fa-angle-left"></i></a></li>';
+							echo '<li><a href="store.php?page=' . ($current_page - 1) . '&ddf=' . $type_filter . '"><i class="fa fa-angle-left"></i></a></li>';
 						}
 						// Lặp khoảng giữa
 						for ($i = 1; $i <= $total_page; $i++) {
@@ -193,17 +241,17 @@ $start = ($current_page - 1) * $limit;
 							if ($i == $current_page) {
 								echo '<li class="active">' . $i . '</li>';
 							} else {
-								echo '<li><a href="store.php?page=' . $i . '">' . $i . '</a></li>';
+								echo '<li><a href="store.php?page=' . $i . '"&ddf=' . $type_filter . '>' . $i . '</a></li>';
 							}
 						}
 
 						if ($current_page < $total_page && $total_page > 1) {
-							echo '<li><a href="store.php?page=' . ($current_page + 1) . '"><i class="fa fa-angle-right"></i></a></li>';
+							echo '<li><a href="store.php?page=' . ($current_page + 1) . '&ddf=' . $type_filter . '"><i class="fa fa-angle-right"></i></a></li>';
 						}
 						?>
 					</ul>
 				</div>
-				<!-- /store bottom filter -->
+				<!-- /store paging -->
 			</div>
 			<!-- /STORE -->
 		</div>

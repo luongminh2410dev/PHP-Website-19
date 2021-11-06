@@ -2296,9 +2296,11 @@ textarea.input {
 }
 
 .modal .modal__body-main {
+  /* min-height: 400px; */
   padding: 10px 25px;
   background-color: white;
 }
+
 
 /* Button Primary */
 .modal__control {
@@ -2327,6 +2329,14 @@ textarea.input {
   border-color: transparent;
 }
 
+.modal__otp-authen {
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .modal__body-mainform {
   margin-top: 25px;
 }
@@ -2334,6 +2344,7 @@ textarea.input {
 .modal__body-mainform {
   display: flex;
   flex-direction: column;
+  min-height: 170px;
 }
 
 .modal__body-mainform-input {

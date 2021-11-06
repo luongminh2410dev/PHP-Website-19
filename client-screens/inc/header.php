@@ -31,6 +31,8 @@ require('../database/dbHelper.php')
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
     <!-- AJAX -->
+    <!-- FIREBASE SDK -->
+    <script type="module" src="./js/firebase-sdk.js"></script>
 </head>
 
 <body>

@@ -7,17 +7,15 @@ function renderListProduct($sql, $grid)
 	// lay cac loai sp
 	foreach ($listProduct as $item) {
 		$price        = number_format($item['price'], 0, ',', '.');
-		if ($item['old_price'] != 0) {
-			$oldprice = number_format($item['old_price'], 0, ',', '.');
-		} else {
-			$oldprice = 'none';
-		}
 		// Check Discount
 		$salePercent = null;
 		$isDiscount = 'none';
-		if ($item['old_price'] > $item['price']) {
+		if ($item['old_price'] != 0 && $item['price'] < $item['old_price']) {
+			$oldprice = number_format($item['old_price'], 0, ',', '.');
 			$salePercent = number_format((($item['old_price'] - $item['price']) * 100) / $item['price'], 0);
 			$isDiscount = 'inline-block';
+		} else {
+			$oldprice = 'none';
 		}
 		// Check Date
 		$isNew = 'none';
