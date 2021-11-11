@@ -1,0 +1,14 @@
+.action-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-item a {
+  cursor: pointer;
+}
+
+.table tfoot tr {
+  color: #3e5569;
+  font-weight: 400;
+  font-size: 16px;
+}
