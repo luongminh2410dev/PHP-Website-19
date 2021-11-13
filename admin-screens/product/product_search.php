@@ -53,7 +53,7 @@ if (!empty($_POST['pin'])) {
     if (!$firstCondition) {
         $sqlSearch .= " AND ";
     }
-    $sqlSearch .= " pin like '%" . $_POST['pin'] . "%'";
+    $sqlSearch .= " battery like '%" . $_POST['pin'] . "%'";
     $firstCondition = false;
 }
 if (!empty($_POST['connect'])) {

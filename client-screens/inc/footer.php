@@ -1,3 +1,4 @@
+<div id="snackbar"></div>
 <!-- NEWSLETTER -->
 <div id="newsletter" class="section">
     <!-- container -->
@@ -107,71 +108,74 @@ require('./inc/register-form.php');
 ?>
 <!-- /FOOTER -->
 <script>
-    function handleShowLoginForm() {
-        $('#login-form').addClass('show-form');
-        $('#login-form').removeClass('hide-form');
-    }
+function handleShowLoginForm() {
+    $('#login-form').addClass('show-form');
+    $('#login-form').removeClass('hide-form');
+}
 
-    function handleRedirectRegister() {
-        $('#login-form').removeClass('show-form');
-        $('#login-form').addClass('hide-form');
+function handleRedirectRegister() {
+    $('#login-form').removeClass('show-form');
+    $('#login-form').addClass('hide-form');
 
-        $('#register-form').addClass('show-form');
-        $('#register-form').removeClass('hide-form');
-    }
+    $('#register-form').addClass('show-form');
+    $('#register-form').removeClass('hide-form');
+}
 
-    function handleRedirectLogin() {
-        $('#login-form').addClass('show-form');
-        $('#login-form').removeClass('hide-form');
+function handleRedirectLogin() {
+    $('#login-form').addClass('show-form');
+    $('#login-form').removeClass('hide-form');
 
-        $('#register-form').removeClass('show-form');
-        $('#register-form').addClass('hide-form');
-    }
+    $('#register-form').removeClass('show-form');
+    $('#register-form').addClass('hide-form');
+}
 
-    function handleHideDialog() {
-        $('#login-form').removeClass('show-form');
-        $('#login-form').addClass('hide-form');
+function handleHideDialog() {
+    $('#login-form').removeClass('show-form');
+    $('#login-form').addClass('hide-form');
 
-        $('#register-form').removeClass('show-form');
-        $('#register-form').addClass('hide-form');
-    }
-    // handle when user click into product
-    function handleRedirectProduct($id) {
-        $href = 'product.php?product_id=' + $id;
-        $(location).prop('href', $href);
-    }
-    // 
-    // // Turn off phone auth app verification.
-    // firebase.auth().settings.appVerificationDisabledForTesting = true;
+    $('#register-form').removeClass('show-form');
+    $('#register-form').addClass('hide-form');
+}
+// handle when user click into product
+function handleRedirectProduct($id) {
+    $href = 'product.php?product_id=' + $id;
+    $(location).prop('href', $href);
+}
 
-    // var phoneNumber = "+84975967842";
-    // var testVerificationCode = "123456";
 
-    // // This will render a fake reCAPTCHA as appVerificationDisabledForTesting is true.
-    // // This will resolve after rendering without app verification.
-    // var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-    // // signInWithPhoneNumber will call appVerifier.verify() which will resolve with a fake
-    // // reCAPTCHA response.
-    // firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
-    //     .then(function(confirmationResult) {
-    //         alert('Here')
-    //         // confirmationResult can resolve with the fictional testVerificationCode above.
-    //         return confirmationResult.confirm(testVerificationCode)
-    //     }).catch(function(error) {
-    //         // Error; SMS not sent
-    //         // ...
-    //     });
+// 
+// // Turn off phone auth app verification.
+// firebase.auth().settings.appVerificationDisabledForTesting = true;
+
+// var phoneNumber = "+84975967842";
+// var testVerificationCode = "123456";
+
+// // This will render a fake reCAPTCHA as appVerificationDisabledForTesting is true.
+// // This will resolve after rendering without app verification.
+// var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+// // signInWithPhoneNumber will call appVerifier.verify() which will resolve with a fake
+// // reCAPTCHA response.
+// firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+//     .then(function(confirmationResult) {
+//         alert('Here')
+//         // confirmationResult can resolve with the fictional testVerificationCode above.
+//         return confirmationResult.confirm(testVerificationCode)
+//     }).catch(function(error) {
+//         // Error; SMS not sent
+//         // ...
+//     });
 </script>
 <!-- jQuery Plugins -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
 <script src="./js/jquery.min.js"></script>
 <script src="./js/phone-auth.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/slick.min.js"></script>
 <script src="./js/nouislider.min.js"></script>
 <script src="./js/jquery.zoom.min.js"></script>
+<script src="./js/cart.js"></script>
+<script src="./js/whishlist.js"></script>
 <script src="./js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-
 </body>
 
 </html>

@@ -25,8 +25,8 @@ function renderListProduct($sql, $grid)
 			$isNew = 'inline-block';
 		}
 		echo '<div class="' . $newGrid . '">
-		<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product">
-			<div class="product-img">
+		<div class="product">
+			<div class="product-img" onclick="handleRedirectProduct(' . $item['id'] . ')">
 				<img src=' . $item['image_url'] . ' style="object-fit:contain; padding: 0 10px 0 10px;"  height="280" alt="Image Product">
 				<div class="product-label">
 					<span style="display: ' . $isDiscount . '"  class="sale">- ' . $salePercent . '%</span>
@@ -45,13 +45,13 @@ function renderListProduct($sql, $grid)
 					<i class="fa fa-star"></i>
 				</div>
 				<div class="product-btns">
-					<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+					<button class="add-to-wishlist" onclick="addToWhishlist(' . $item['id'] . ')"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 					<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
 					<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
 				</div>
 			</div>
 			<div class="add-to-cart">
-				<button onclick="handleAddToCart()" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
+				<button onclick="addToCart(' . $item['id'] . ')" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
 			</div>
 		</div>
 		</div>';

@@ -64,7 +64,7 @@ if (isset($_POST['currentPage']) && isset($_POST['limitItem']) && !empty($_POST[
         if (!$firstCondition) {
             $sqlSearch .= " AND ";
         }
-        $sqlSearch .= " pin like '%" . $_POST['pin'] . "%'";
+        $sqlSearch .= " battery like '%" . $_POST['pin'] . "%'";
         $firstCondition = false;
     }
     if (!empty($_POST['connect'])) {

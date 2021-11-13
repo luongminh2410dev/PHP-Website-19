@@ -553,7 +553,7 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                 $('#VGA').text(response.product.vga)
                 $('#RAM').text(response.product.ram)
                 $('#STORAGE').text(response.product.storage)
-                $('#PIN').text(response.product.pin)
+                $('#PIN').text(response.product.battery)
                 $('#CONNECT').text(response.product.connect)
                 $('#OS').text(response.product.os)
                 myModal.show()

@@ -33,7 +33,7 @@
         $des = $_POST['productDes'];
         $productImages = "productImages";
 
-        $sqlAdd =  "INSERT INTO tbl_product (name, price, old_price, cpu, screen, ram, vga, storage, pin, connect, os, description, type_id)
+        $sqlAdd =  "INSERT INTO tbl_product (name, price, old_price, cpu, screen, ram, vga, storage, battery, connect, os, description, type_id)
                     VALUES ('$name', '$price', '$old_price', '$cpu', '$screen','$ram', '$vga', '$storage', '$pin', '$connect', '$os', '$des', '$type_id')";
 
         $idReturn = executeReturnId($sqlAdd);

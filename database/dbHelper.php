@@ -2,7 +2,7 @@
 require_once('config.php');
 function execute($sql)
 {
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE, PORT);
     // run query insert, update, delete
     return mysqli_query($con, $sql);
     // close database
@@ -11,7 +11,7 @@ function execute($sql)
 
 function executeResult($sql)
 {
-    $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE, PORT);
     // echo "$sql";
     $result = mysqli_query($con, $sql);
     if ($result) {
@@ -28,7 +28,7 @@ function executeResult($sql)
 }
 function executeOneResult($sql)
 {
-    $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    $con    = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE, PORT);
     $result = mysqli_query($con, $sql);
     $row    = mysqli_fetch_assoc($result);
     return $row;

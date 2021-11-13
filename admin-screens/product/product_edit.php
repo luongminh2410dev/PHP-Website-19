@@ -45,7 +45,7 @@ $product = executeSingleResult($sqlSelectProduct);
             "ram = '$ram'," .
             "vga = '$vga'," .
             "storage = '$storage'," .
-            "pin = '$pin'," .
+            "battery = '$pin'," .
             "connect = '$connect'," .
             "os = '$os'," .
             "description = '$des'," .
@@ -194,7 +194,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 <div class="form-group">
                                     <label for="productPin">PIN</label>
                                     <input type="text" class="form-control" name="productPin" id="productPin" required
-                                        value="<?php echo $product["pin"] ?>">
+                                        value="<?php echo $product["battery"] ?>">
                                     <div class="invalid-feedback">
                                         Vui lòng nhập pin.
                                     </div>
@@ -263,7 +263,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
                             </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" name="sbm" value="Cập nhật"></button>
+                        <input class="btn btn-primary" type="submit" name="sbm" value="Cập nhật"></input>
                     </form>
                 </div>
             </div>
