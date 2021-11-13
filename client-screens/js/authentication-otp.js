@@ -94,10 +94,8 @@ btnRegister.onclick = function () {
                         'phoneNumber': phoneNumber.value
                     }
                 }).done(function (msg) {
-                    console.log(typeof msg)
-                    console.log(msg)
                     alert(msg)
-                    // handleRedirectLogin();
+                    msg == 'Đăng ký thành công!' ? handleRedirectLogin() : null;
                 });
             })
             .catch(function (error) {

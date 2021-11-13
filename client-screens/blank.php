@@ -37,15 +37,15 @@ $start = ($current_page - 1) * $limit;
 
 ?>
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
+<div class="section">
 	<!-- container -->
 	<div class="container">
 		<!-- row -->
 		<div class="row">
 			<div class="col-md-12">
 				<?php
-				$message = $total_records > 0 ?  'Kết quả tìm kiếm' : 'Không tìm thấy sản phẩm nào';
-				echo '<h4 class="breadcrumb-header">' . $message . ' "  ' . $search_content . '  "</h4>'
+				$message = $total_records > 0 ?  'Kết quả tìm kiếm' : 'Không tìm thấy sản phẩm: ';
+				echo '<span class="breadcrumb-header">' . $message . '</span><span>"' . $search_content . '"</span>';
 				?>
 			</div>
 		</div>
@@ -89,18 +89,6 @@ $start = ($current_page - 1) * $limit;
 </div>
 <!-- /BREADCRUMB -->
 
-<!-- SECTION -->
-<div class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
-		</div>
-		<!-- /row -->
-	</div>
-	<!-- /container -->
-</div>
-<!-- /SECTION -->
 <?php
 require('./inc/footer.php');
 ?>

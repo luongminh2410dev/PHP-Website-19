@@ -343,6 +343,16 @@ textarea.input {
   margin-bottom: 30px;
 }
 
+.breadcrumb-header {
+  display: inline-block;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 15px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-style: bold;
+}
+
 #breadcrumb .breadcrumb-header {
   display: inline-block;
   margin-top: 0px;

@@ -3,6 +3,7 @@ require('./functions/renderListProduct.php');
 require('./inc/header.php');
 $product_id   = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
 // add product to recent_product_array
+// if (isset($_SESSION['login-username'])) {
 $product_recent_array = isset($_SESSION['product_recent']) ? $_SESSION['product_recent'] : array();
 $index = array_search($product_id, $product_recent_array);
 if ($index >= 0) {
@@ -13,7 +14,7 @@ if ($index >= 0) {
 }
 $product_recent_array = array_slice($product_recent_array, -4);
 $_SESSION['product_recent'] = $product_recent_array;
-
+// }
 // get image product
 $sql	      = 'SELECT * FROM tbl_product_details WHERE tbl_product_details.id_product = ' . $product_id . '';
 $listImage    = executeResult($sql);

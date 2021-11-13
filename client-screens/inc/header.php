@@ -38,7 +38,7 @@ session_start();
     <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/jquery.zoom.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
 
 </head>
 
@@ -102,7 +102,7 @@ session_start();
                                 <button name="btn_search" class="search-btn">Tìm kiếm</button>
                             </form>
                             <?php
-
+                            $search_type = 0;
                             if (isset($_POST['btn_search'])) {
                                 if (!empty($_POST['option_search'])) {
                                     $search_type = $_POST['option_search'];

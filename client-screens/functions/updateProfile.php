@@ -13,6 +13,6 @@ if ($fullname == '') {
     $query = 'UPDATE tbl_user 
     SET tbl_user.password = "' . $password . '", tbl_user.name = "' . $fullname . '", tbl_user.email= "' . $email . '", tbl_user.address = "' . $address . '"
     WHERE tbl_user.username = "' . $username . '"';
-    $result = executeResult($query);
-    echo $result == null ?  'Đã xảy ra lỗi! Vui lòng thử lại sau' : 'Cập nhật thành công';
+    $result = execute($query);
+    echo 'Cập nhật thành công';
 }
