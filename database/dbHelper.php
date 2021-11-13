@@ -33,3 +33,7 @@ function executeOneResult($sql)
     $row    = mysqli_fetch_assoc($result);
     return $row;
 }
+function FunctionName()
+{
+    # code...
+}
