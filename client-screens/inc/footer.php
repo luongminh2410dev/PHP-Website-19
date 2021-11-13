@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">About Us</h3>
+                        <h3 class="footer-title">Công ty chủ quản</h3>
                         <p>Công ty CP vô trách nhiệm 3 thành viên Phúc Lộc Thọ</p>
                         <ul class="footer-links">
                             <li><a href="#"><i class="fa fa-map-marker"></i> Số 3 Cầu Giấy </a></li>
@@ -56,13 +56,13 @@
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Categories</h3>
+                        <h3 class="footer-title">Danh mục</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Hot deals</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Accessories</a></li>
+                            <li><a href="#">Khuyến mãi</a></li>
+                            <li><a href="#">Các sản phẩm</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Liên hệ</a></li>
+                            <!-- <li><a href="#">Accessories</a></li> -->
                         </ul>
                     </div>
                 </div>
@@ -71,25 +71,26 @@
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">References</h3>
+                        <h3 class="footer-title">Tài liệu</h3>
                         <ul class="footer-links">
                             <li><a target="_blank" href="https://cellphones.com.vn/">CellphoneS</a></li>
                             <li><a target="_blank" href="https://www.thegioididong.com/">Thegioididong</a></li>
                             <li><a target="_blank" href="https://www.php.net/manual/en/index.php">PHP Manual</a></li>
                             <li><a target="_blank" href="https://freetuts.net/">Freetuts</a></li>
+                            <li><a target="_blank" href="https://sandbox.onlinephpfunctions.com/">PHP Sandbox</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
-                        <h3 class="footer-title">Service</h3>
+                        <h3 class="footer-title">Dịch vụ</h3>
                         <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="#">Xem giỏ hàng</a></li>
+                            <li><a href="#">Danh sách ước</a></li>
+                            <li><a href="#">Giao hàng miễn phí</a></li>
+                            <li><a href="#">Bảo hành tận nơi</a></li>
                         </ul>
                     </div>
                 </div>
@@ -106,7 +107,13 @@ require('./inc/login-form.php');
 require('./inc/register-form.php');
 ?>
 <!-- /FOOTER -->
+<!-- Script -->
 <script>
+    function handleHideAllDialog() {
+        $('#login-form').addClass('hide-form');
+        $('#register-form').addClass('hide-form');
+    }
+
     function handleShowLoginForm() {
         $('#login-form').addClass('show-form');
         $('#login-form').removeClass('hide-form');
@@ -140,37 +147,21 @@ require('./inc/register-form.php');
         $href = 'product.php?product_id=' + $id;
         $(location).prop('href', $href);
     }
-    // 
-    // // Turn off phone auth app verification.
-    // firebase.auth().settings.appVerificationDisabledForTesting = true;
-
-    // var phoneNumber = "+84975967842";
-    // var testVerificationCode = "123456";
-
-    // // This will render a fake reCAPTCHA as appVerificationDisabledForTesting is true.
-    // // This will resolve after rendering without app verification.
-    // var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-    // // signInWithPhoneNumber will call appVerifier.verify() which will resolve with a fake
-    // // reCAPTCHA response.
-    // firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
-    //     .then(function(confirmationResult) {
-    //         alert('Here')
-    //         // confirmationResult can resolve with the fictional testVerificationCode above.
-    //         return confirmationResult.confirm(testVerificationCode)
-    //     }).catch(function(error) {
-    //         // Error; SMS not sent
-    //         // ...
-    //     });
+    // handle redirect to profile-page
+    function handleRedirectProfile() {
+        $(location).prop('href', 'profile.php');
+    }
 </script>
-<!-- jQuery Plugins -->
-<script src="./js/jquery.min.js"></script>
-<script src="./js/phone-auth.js"></script>
-<script src="./js/bootstrap.min.js"></script>
 <script src="./js/slick.min.js"></script>
 <script src="./js/nouislider.min.js"></script>
-<script src="./js/jquery.zoom.min.js"></script>
 <script src="./js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+<script src="./js/authentication-otp.js"></script>
 
 </body>
 

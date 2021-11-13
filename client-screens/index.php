@@ -1,6 +1,6 @@
 <?php
 require('./inc/header.php');
-require('../functions/functionHelper.php');
+require('./functions/renderListProduct.php');
 ?>
 <!-- COUNTDOWN Script -->
 <script>
@@ -40,11 +40,11 @@ require('../functions/functionHelper.php');
 			<div class="col-md-4 col-xs-6">
 				<div class="shop">
 					<div class="shop-img">
-						<img src="images/shop01.png" alt="">
+						<img style="max-height: 260px; width: auto; " src="images/asus-rog.png" alt="">
 					</div>
 					<div class="shop-body">
-						<h3>Laptop<br>Collection</h3>
-						<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+						<h3>Laptop<br>Asus</h3>
+						<a href="blank.php?search=asus&option=2" class="cta-btn">Xem ngay <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -54,11 +54,11 @@ require('../functions/functionHelper.php');
 			<div class="col-md-4 col-xs-6">
 				<div class="shop">
 					<div class="shop-img">
-						<img src="images/shop03.png" alt="">
+						<img style="max-height: 260px; width: auto; " src="images/macbook.png" alt="">
 					</div>
 					<div class="shop-body">
-						<h3>Accessories<br>Collection</h3>
-						<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+						<h3>Laptop<br>iMac/Macbook</h3>
+						<a href="blank.php?search=apple&option=2" class="cta-btn">Xem ngay <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -68,11 +68,11 @@ require('../functions/functionHelper.php');
 			<div class="col-md-4 col-xs-6">
 				<div class="shop">
 					<div class="shop-img">
-						<img src="images/shop02.png" alt="">
+						<img style="max-height: 260px; width: auto; " src="images/vivobook.png" alt="">
 					</div>
 					<div class="shop-body">
-						<h3>Cameras<br>Collection</h3>
-						<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+						<h3>Laptop<br>Dell</h3>
+						<a href="blank.php?search=dell&option=2" class="cta-btn">Xem ngay <i class="fa fa-arrow-circle-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -121,7 +121,6 @@ require('../functions/functionHelper.php');
 									GROUP BY tbl_product.id
 									ORDER BY tbl_product.create_date DESC
 									LIMIT 0,12;';
-
 								renderListProduct($sql, null);
 								?>
 							</div>

@@ -1,7 +1,19 @@
 <?php
-require('../functions/functionHelper.php');
+require('./functions/renderListProduct.php');
 require('./inc/header.php');
 $product_id   = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
+// add product to recent_product_array
+$product_recent_array = isset($_SESSION['product_recent']) ? $_SESSION['product_recent'] : array();
+$index = array_search($product_id, $product_recent_array);
+if ($index >= 0) {
+	array_push($product_recent_array, $product_id);
+	$product_recent_array = array_unique($product_recent_array);
+} else {
+	array_push($product_recent_array, $product_id);
+}
+$product_recent_array = array_slice($product_recent_array, -4);
+$_SESSION['product_recent'] = $product_recent_array;
+
 // get image product
 $sql	      = 'SELECT * FROM tbl_product_details WHERE tbl_product_details.id_product = ' . $product_id . '';
 $listImage    = executeResult($sql);
@@ -396,7 +408,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 
 			<div class="col-md-12">
 				<div class="section-title text-center">
-					<h3 class="title">Các sản phẩm cùng loại</h3>
+					<h3 class="title">Các sản phẩm liên quan</h3>
 				</div>
 			</div>
 			<?php

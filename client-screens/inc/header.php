@@ -1,5 +1,8 @@
 <?php
-require('../database/dbHelper.php')
+require('../database/dbHelper.php');
+header('Content-Type: text/html; charset=UTF-8');
+session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,8 +34,12 @@ require('../database/dbHelper.php')
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="./css/style.css" />
     <!-- AJAX -->
-    <!-- FIREBASE SDK -->
-    <script type="module" src="./js/firebase-sdk.js"></script>
+    <!-- jQuery Plugins -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.zoom.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -49,10 +56,17 @@ require('../database/dbHelper.php')
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
                     <li>
-                        <a onclick="handleShowLoginForm()" id="btn_login" href="#">
-                            <i class="far fa-user"></i>
-                            <!-- <i class="fa fa-user-o"></i>  -->
-                            Đăng nhập </a>
+                        <?php
+                        if (isset($_SESSION['username']) && isset($_SESSION['fullname'])) {
+                            echo '<a onclick="handleRedirectProfile()" id="btn_login" href="#">
+                                <i class="far fa-user"></i>
+                                ' . $_SESSION['fullname'] . ' </a>';
+                        } else {
+                            echo '<a onclick="handleShowLoginForm()" id="btn_login" href="#">
+                                <i class="far fa-user"></i>
+                                Đăng nhập </a>';
+                        }
+                        ?>
                     </li>
                 </ul>
             </div>
@@ -80,21 +94,25 @@ require('../database/dbHelper.php')
                         <div class="header-search">
                             <form method="POST">
                                 <select name="option_search" class="input-select">
-                                    <option value="0">Search</option>
-                                    <option value="1">Gaming</option>
-                                    <option value="2">Văn phòng</option>
+                                    <option value="0">Theo tên</option>
+                                    <option value="1">Theo hãng</option>
+                                    <!-- <option value="2">Theo hãng</option> -->
                                 </select>
                                 <input class="input" name="search" placeholder="Bạn muốn tìm....">
                                 <button name="btn_search" class="search-btn">Tìm kiếm</button>
                             </form>
                             <?php
+
                             if (isset($_POST['btn_search'])) {
+                                if (!empty($_POST['option_search'])) {
+                                    $search_type = $_POST['option_search'];
+                                }
                                 $option = stripslashes($_POST['option_search']);
                                 $search = trim(stripslashes($_POST['search']));
                                 if (empty($search)) {
                                     echo "<script type='text/javascript'>alert('Bạn phải nhập từ khoá tìm kiếm');</script>";
                                 } else {
-                                    $search_url = 'Location:blank.php?search=' . $search;
+                                    $search_url = 'Location:blank.php?search=' . $search . '&option=' . $search_type . '';
                                     header($search_url);
                                 }
                             }
@@ -187,12 +205,11 @@ require('../database/dbHelper.php')
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="#">Hot Deals</a></li>
-                    <li><a href="store.php">Laptop Theo Hãng</a></li>
-                    <li><a href="#">Laptop Văn Phòng</a></li>
-                    <li><a href="#">Laptops Gaming</a></li>
-                    <li><a href="#">Linh, Phụ Kiện Laptop</a></li>
+                    <li><a href="index.php">Trang chủ</a></li>
+                    <li><a href="store.php">Sản phẩm</a></li>
+                    <li><a href="promotion.php">Khuyến mại</a></li>
+                    <li><a href="policyWarranty.php">Chính sách bảo hành</a></li>
+                    <li><a href="contact.php">Liên hệ</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>

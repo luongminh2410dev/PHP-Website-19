@@ -3,11 +3,11 @@ require('./inc/header.php')
 ?>
 
 <!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-	<!-- container -->
-	<div class="container">
-		<!-- row -->
-		<div class="row">
+<!-- <div id="breadcrumb" class="section"> -->
+<!-- container -->
+<!-- <div class="container"> -->
+<!-- row -->
+<!-- <div class="row">
 			<div class="col-md-12">
 				<h3 class="breadcrumb-header">Checkout</h3>
 				<ul class="breadcrumb-tree">
@@ -15,11 +15,11 @@ require('./inc/header.php')
 					<li class="active">Checkout</li>
 				</ul>
 			</div>
-		</div>
-		<!-- /row -->
-	</div>
-	<!-- /container -->
-</div>
+		</div> -->
+<!-- /row -->
+<!-- </div> -->
+<!-- /container -->
+<!-- </div> -->
 <!-- /BREADCRUMB -->
 
 <!-- SECTION -->
@@ -33,33 +33,33 @@ require('./inc/header.php')
 				<!-- Billing Details -->
 				<div class="billing-details">
 					<div class="section-title">
-						<h3 class="title">Billing address</h3>
+						<h3 class="title">Thông tin đặt hàng</h3>
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="first-name" placeholder="First Name">
+						<input class="input" type="text" name="first-name" placeholder="Họ tên người nhận">
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<input class="input" type="text" name="last-name" placeholder="Last Name">
-					</div>
+					</div> -->
 					<div class="form-group">
 						<input class="input" type="email" name="email" placeholder="Email">
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="address" placeholder="Address">
+						<input class="input" type="text" name="address" placeholder="Địa chỉ nhận hàng">
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<input class="input" type="text" name="city" placeholder="City">
 					</div>
 					<div class="form-group">
 						<input class="input" type="text" name="country" placeholder="Country">
-					</div>
+					</div> -->
 					<div class="form-group">
 						<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
 					</div>
 					<div class="form-group">
-						<input class="input" type="tel" name="tel" placeholder="Telephone">
+						<input class="input" type="tel" name="tel" placeholder="Số điện thoại">
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<div class="input-checkbox">
 							<input type="checkbox" id="create-account">
 							<label for="create-account">
@@ -71,12 +71,12 @@ require('./inc/header.php')
 								<input class="input" type="password" name="password" placeholder="Enter Your Password">
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<!-- /Billing Details -->
 
 				<!-- Shiping Details -->
-				<div class="shiping-details">
+				<!-- <div class="shiping-details">
 					<div class="section-title">
 						<h3 class="title">Shiping address</h3>
 					</div>
@@ -113,12 +113,12 @@ require('./inc/header.php')
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- /Shiping Details -->
 
 				<!-- Order notes -->
 				<div class="order-notes">
-					<textarea class="input" placeholder="Order Notes"></textarea>
+					<textarea class="input" placeholder="Ghi chú"></textarea>
 				</div>
 				<!-- /Order notes -->
 			</div>
@@ -126,38 +126,42 @@ require('./inc/header.php')
 			<!-- Order Details -->
 			<div class="col-md-5 order-details">
 				<div class="section-title text-center">
-					<h3 class="title">Your Order</h3>
+					<h3 class="title">Đơn hàng của bạn</h3>
 				</div>
 				<div class="order-summary">
 					<div class="order-col">
-						<div><strong>PRODUCT</strong></div>
-						<div><strong>TOTAL</strong></div>
+						<div><strong>Sản phẩm</strong></div>
+						<div><strong>Số lượng</strong></div>
 					</div>
 					<div class="order-products">
 						<div class="order-col">
-							<div>1x Product Name Goes Here</div>
-							<div>$980.00</div>
+							<div>1x Macbook Air M1 2020</div>
+							<div>25.000.000 ₫</div>
 						</div>
 						<div class="order-col">
-							<div>2x Product Name Goes Here</div>
-							<div>$980.00</div>
+							<div>2x Laptop Dell Inspiron 4055</div>
+							<div>19.990.000 ₫</div>
 						</div>
 					</div>
 					<div class="order-col">
-						<div>Shiping</div>
+						<div>Phí giao hàng</div>
 						<div><strong>FREE</strong></div>
 					</div>
 					<div class="order-col">
-						<div><strong>TOTAL</strong></div>
-						<div><strong class="order-total">$2940.00</strong></div>
+						<div><strong>Tổng tiền</strong></div>
+						<div><strong class="order-total">64.980.000</strong></div>
 					</div>
 				</div>
 				<div class="payment-method">
+					<div style="margin-bottom: 12px;" class="order-col">
+						<div><strong>Phương thức thanh toán</strong></div>
+						<!-- <div><strong class="order-total">64.980.000</strong></div> -->
+					</div>
 					<div class="input-radio">
 						<input type="radio" name="payment" id="payment-1">
 						<label for="payment-1">
 							<span></span>
-							Direct Bank Transfer
+							Tài khoản ngân hàng
 						</label>
 						<div class="caption">
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -167,7 +171,7 @@ require('./inc/header.php')
 						<input type="radio" name="payment" id="payment-2">
 						<label for="payment-2">
 							<span></span>
-							Cheque Payment
+							Ví điện tử
 						</label>
 						<div class="caption">
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -177,7 +181,7 @@ require('./inc/header.php')
 						<input type="radio" name="payment" id="payment-3">
 						<label for="payment-3">
 							<span></span>
-							Paypal System
+							Tiền mặt
 						</label>
 						<div class="caption">
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -188,10 +192,10 @@ require('./inc/header.php')
 					<input type="checkbox" id="terms">
 					<label for="terms">
 						<span></span>
-						I've read and accept the <a href="#">terms & conditions</a>
+						Tôi đã đọc và đồng ý với <a href="#">các điều kiện & điều khoản</a>
 					</label>
 				</div>
-				<a href="#" class="primary-btn order-submit">Place order</a>
+				<a href="#" class="primary-btn order-submit">Đặt hàng</a>
 			</div>
 			<!-- /Order Details -->
 		</div>

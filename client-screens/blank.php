@@ -1,10 +1,30 @@
 <?php
 require('./inc/header.php');
-require('../functions/functionHelper.php');
+require('./functions/renderListProduct.php');
+
 $search_content = isset($_GET['search']) ? $_GET['search'] : null;
-$query = "select count(id) as total from tbl_product where tbl_product.name like '%$search_content%'";
-$row = executeResult($query)[0];
-$total_records = $row['total'];
+$search_type = isset($_GET['option']) ? $_GET['option'] : null;
+
+$query = "SELECT tbl_product.id, tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
+FROM tbl_product INNER JOIN tbl_category_type INNER JOIN tbl_product_details INNER JOIN tbl_brand
+WHERE tbl_product.id = tbl_product_details.id_product
+AND tbl_product.type_id = tbl_category_type.id
+AND tbl_brand.id = tbl_category_type.brand_id";
+$query_filter  = "AND tbl_product.name LIKE '%$search_content%'";
+$query_footer = "GROUP BY tbl_product.id";
+if (isset($_GET['option'])) {
+	switch ($search_type) {
+		case 0:
+			break;
+		case 1:
+			$query_filter  = "AND tbl_brand.name LIKE '%$search_content%'";
+			break;
+	}
+}
+
+$query_full = $query . ' ' . $query_filter . ' ' . $query_footer;
+$result = executeResult($query_full);
+$total_records = count($result);
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 8;
 $total_page = ceil($total_records / $limit);
@@ -32,13 +52,7 @@ $start = ($current_page - 1) * $limit;
 		<div class="row">
 			<?php
 			if ($total_records > 0) {
-				$sql = "SELECT tbl_product.id, tbl_product.name, tbl_product.price, tbl_product.old_price, tbl_product.create_date, tbl_product.updated_date, tbl_category_type.name AS brand_type, tbl_product_details.image_url
-				FROM `tbl_product` INNER JOIN `tbl_category_type` INNER JOIN `tbl_product_details`
-				WHERE tbl_product.id = tbl_product_details.id_product
-				AND tbl_product.type_id = tbl_category_type.id
-				AND tbl_product.name LIKE '%$search_content%'
-				GROUP BY tbl_product.id
-				LIMIT $start, $limit";
+				$sql = $query_full . ' LIMIT ' . $start . ',' . $limit;
 				$grid = 'col-md-3 col-xs-6';
 				renderListProduct($sql, $grid);
 			}
