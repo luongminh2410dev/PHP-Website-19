@@ -30,18 +30,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		$brand_filter = $_POST['brand_list'];
 	}
 	// list category checkbox
-	if (!empty($_POST['category_list'])) {
+	elseif (!empty($_POST['category_list'])) {
 		$_SESSION['category_filter'] = $_POST['category_list'];
 		$category_filter = $_POST['category_list'];
 	}
 	// type filter
-	if (!empty($_POST['drop-down-filter'])) {
+	elseif (!empty($_POST['drop-down-filter'])) {
 		$type_filter = $_POST['drop-down-filter'];
 		$_SESSION['type_filter'] = $_POST['drop-down-filter'];
+	} elseif (empty($_POST['category_list']) && !empty($_SESSION['category_filter'])) {
+		$_SESSION['category_filter'] = array();
+		$category_filter = array();
+	} elseif (empty($_POST['brand_list'])) {
+		$_SESSION['brand_filter'] = array();
+		$brand_filter = array();
 	}
 
 	$current_page = 1;
-	// $start = ($current_page - 1) * $limit;
 }
 // Xac dinh query dieu kien
 $query_brand_filter = !empty($brand_filter) ? 'AND tbl_brand.id IN(' . implode(",", $brand_filter) . ')' : '';

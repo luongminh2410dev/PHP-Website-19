@@ -350,7 +350,7 @@ textarea.input {
   margin-right: 15px;
   text-transform: uppercase;
   font-size: 20px;
-  font-style: bold;
+  font-weight: bold;
 }
 
 #breadcrumb .breadcrumb-header {
@@ -1802,6 +1802,11 @@ textarea.input {
 .reviews-pagination li.active {
   background-color: #D10024;
   border-color: #D10024;
+  color: #FFF;
+  cursor: default;
+}
+
+.reviews-pagination li.active a {
   color: #FFF;
   cursor: default;
 }

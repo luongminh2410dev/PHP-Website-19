@@ -44,8 +44,8 @@ $start = ($current_page - 1) * $limit;
 		<div class="row">
 			<div class="col-md-12">
 				<?php
-				$message = $total_records > 0 ?  'Kết quả tìm kiếm' : 'Không tìm thấy sản phẩm: ';
-				echo '<span class="breadcrumb-header">' . $message . '</span><span>"' . $search_content . '"</span>';
+				$message = $total_records > 0 ?  'Kết quả tìm kiếm' : 'Không tìm thấy sản phẩm nào! ';
+				echo '<span class="breadcrumb-header">' . $message . '</span><span style="font-size: 20px;">"' . $search_content . '"</span>';
 				?>
 			</div>
 		</div>

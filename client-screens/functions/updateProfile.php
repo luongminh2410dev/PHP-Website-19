@@ -14,5 +14,6 @@ if ($fullname == '') {
     SET tbl_user.password = "' . $password . '", tbl_user.name = "' . $fullname . '", tbl_user.email= "' . $email . '", tbl_user.address = "' . $address . '"
     WHERE tbl_user.username = "' . $username . '"';
     $result = execute($query);
+    $_SESSION['fullname'] = $fullname;
     echo 'Cập nhật thành công';
 }

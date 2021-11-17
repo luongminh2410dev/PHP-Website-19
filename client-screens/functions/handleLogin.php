@@ -14,6 +14,7 @@ if (!$username || !$password) {
         // Lưu tên đăng nhập
         $_SESSION['username'] = $username;
         $_SESSION['fullname'] = $result[0]['name'];
+        $_SESSION['user_id'] = $result[0]['id'];
         echo "Đăng nhập thành công!";
     }
 }

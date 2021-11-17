@@ -12,7 +12,7 @@
                     <input type="text" id="login-form-username" name="login-username" class="modal__body-mainform-input" placeholder="Tài khoản">
                     <input type="password" id="login-form-password" name="login-password" class="modal__body-mainform-input" placeholder="Mật khẩu">
                     <div class="modal__body-mainform-note">
-                        <p>Nếu bạn chưa có tài khoản, bạn có thể đăng ký tài khoản mới <a onclick="handleRedirectRegister()" class="modal__body-mainform-note-link">tại đây</a>
+                        <p>Nếu bạn chưa có tài khoản, bạn có thể đăng ký tài khoản mới <a style="cursor: pointer;" onclick="handleRedirectRegister()" class="modal__body-mainform-note-link">tại đây</a>
                         </p>
                     </div>
                 </div>

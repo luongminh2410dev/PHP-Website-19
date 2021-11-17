@@ -85,9 +85,9 @@ $brand    	  = executeResult($sqlBrand)[0];
 						<i class="fa fa-star"></i>
 						<i class="fa fa-star"></i>
 						<i class="fa fa-star"></i>
-						<i class="fa fa-star-o"></i>
+						<i class="fa fa-star"></i>
 					</div>
-					<a class="review-link" href="#">10 Review(s) | Add your review</a>
+					<a class="review-link" id="review-link-button">(10) Đánh giá | Thêm đánh giá</a>
 				</div>
 				<div>
 					<h3 class="product-price">₫ ' . $price . ' <del style="display: ' . $oldprice . '" class="product-old-price">₫ ' . $oldprice . '</del></h3>
@@ -144,7 +144,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 					<ul class="tab-nav">
 						<li class="active"><a data-toggle="tab" href="#tab1">Tổng quan</a></li>
 						<li><a data-toggle="tab" href="#tab2">Chi tiết</a></li>
-						<li><a data-toggle="tab" href="#tab3">Đánh giá (3)</a></li>
+						<li><a id="tab3-button" data-toggle="tab" href="#tab3">Đánh giá</a></li>
 					</ul>
 					<!-- /product tab nav -->
 
@@ -219,13 +219,58 @@ $brand    	  = executeResult($sqlBrand)[0];
 								<div class="col-md-3">
 									<div id="rating">
 										<div class="rating-avg">
-											<span>4.5</span>
+											<?php
+											$queryComment = "SELECT tbl_user.name, tbl_comment.rate, tbl_comment.content,tbl_comment.create_date FROM tbl_comment INNER JOIN tbl_user
+											WHERE tbl_user.id = tbl_comment.user_id
+											AND tbl_comment.product_id = $product_id
+											ORDER BY tbl_comment.create_date DESC";
+											$resultComment = executeResult($queryComment);
+											$totalRate = count($resultComment);
+											$isEmpty = $totalRate == 0 ? true : false;
+											$rate5 = 0;
+											$rate4 = 0;
+											$rate3 = 0;
+											$rate2 = 0;
+											$rate1 = 0;
+											$totalStar = 0;
+											if (!$isEmpty) {
+												foreach ($resultComment as $item) {
+													switch ($item['rate']) {
+														case 1:
+															$rate1++;
+															break;
+														case 2:
+															$rate2++;
+															break;
+														case 3:
+															$rate3++;
+															break;
+														case 4:
+															$rate4++;
+															break;
+														case 5:
+															$rate5++;
+															break;
+													}
+													$totalStar += $item['rate'];
+												}
+											} else {
+												$totalRate = 1;
+											}
+											$rateAVG = round($totalStar / $totalRate, 2);
+											$number_star = floor($rateAVG);
+											echo "<span>$rateAVG</span>";
+											?>
 											<div class="rating-stars">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
+												<?php
+												for ($i = 1; $i <= 5; $i++) {
+													if ($i <= $number_star) {
+														echo '<i class="fa fa-star"></i>';
+													} else {
+														echo '<i class="fa fa-star-o"></i>';
+													}
+												}
+												?>
 											</div>
 										</div>
 										<ul class="rating">
@@ -237,10 +282,13 @@ $brand    	  = executeResult($sqlBrand)[0];
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 												</div>
-												<div class="rating-progress">
-													<div style="width: 80%;"></div>
+												<?php
+												$progressbar5 = round($rate5 / $totalRate, 2) * 100;
+												echo '<div class="rating-progress">
+													<div style="width: ' . $progressbar5 . '%;"></div>
 												</div>
-												<span class="sum">3</span>
+												<span class="sum">' . $rate5 . '</span>';
+												?>
 											</li>
 											<li>
 												<div class="rating-stars">
@@ -248,51 +296,63 @@ $brand    	  = executeResult($sqlBrand)[0];
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
 												</div>
-												<div class="rating-progress">
-													<div style="width: 60%;"></div>
+												<?php
+												$progressbar4 =  round($rate4 / $totalRate, 2) * 100;
+												echo '<div class="rating-progress">
+													<div style="width: ' . $progressbar4 . '%;"></div>
 												</div>
-												<span class="sum">2</span>
+												<span class="sum">' . $rate4 . '</span>';
+												?>
 											</li>
 											<li>
 												<div class="rating-stars">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
 												</div>
-												<div class="rating-progress">
-													<div></div>
+												<?php
+												$progressbar3 =  round($rate3 / $totalRate, 2) * 100;
+												echo '<div class="rating-progress">
+													<div style="width: ' . $progressbar3 . '%;"></div>
 												</div>
-												<span class="sum">0</span>
+												<span class="sum">' . $rate3 . '</span>';
+												?>
 											</li>
 											<li>
 												<div class="rating-stars">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
 												</div>
-												<div class="rating-progress">
-													<div></div>
+												<?php
+												$progressbar2 =  round($rate2 / $totalRate, 2) * 100;
+												echo '<div class="rating-progress">
+													<div style="width: ' . $progressbar2 . '%;"></div>
 												</div>
-												<span class="sum">0</span>
+												<span class="sum">' . $rate2 . '</span>';
+												?>
 											</li>
 											<li>
 												<div class="rating-stars">
 													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
+													<i style="visibility: hidden;" class="fa fa-star"></i>
 												</div>
-												<div class="rating-progress">
-													<div></div>
+												<?php
+												$progressbar1 =  round($rate1 / $totalRate, 2) * 100;
+												echo '<div class="rating-progress">
+													<div style="width: ' . $progressbar1 . '%;"></div>
 												</div>
-												<span class="sum">0</span>
+												<span class="sum">' . $rate1 . '</span>';
+												?>
 											</li>
 										</ul>
 									</div>
@@ -301,63 +361,75 @@ $brand    	  = executeResult($sqlBrand)[0];
 
 								<!-- Reviews -->
 								<div class="col-md-6">
-									<div id="reviews">
-										<ul class="reviews">
+									<div class="products-tabs" id="reviews">
+										<?php
+										if ($isEmpty) {
+											echo '<p><i>Chưa có đánh giá nào...</i></p>';
+										} else {
+											$current_tab = 1;
+											$total_tab = ceil($totalRate / 3);
+											foreach ($resultComment as $key => $item) {
+												$isActive = $current_tab == 1 ? 'active' : null;
+												if ($key % 3 == 0) {
+													echo '<div  id="tab_review' . $current_tab . '" class="tab-pane fade in ' . $isActive . '">';
+													$current_tab++;
+												}
+												echo '<ul class="reviews">
 											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-										</ul>
+													<div class="review-heading">
+														<h5 class="name">' . $item['name'] . '</h5>
+														<p class="date">' . $item['create_date'] . '</p>
+														<div class="review-rating">';
+												for ($i = 1; $i <= 5; $i++) {
+													if ($i <= $item['rate']) {
+														echo '<i class="fa fa-star"></i>';
+													} else {
+														echo '<i class="fa fa-star-o empty"></i>';
+													}
+												}
+												echo '</div>
+															</div>
+															<div class="review-body">
+																<p>' . $item['content'] . '</p>
+															</div>
+														</li>
+													</ul>';
+												if ($key == $totalRate - 1) {
+													$spare = 3 - ($totalRate % 3);
+													for ($i = 1; $i <= $spare; $i++) {
+														echo '<ul class="reviews">
+													<li>
+														<div class="review-heading">
+														<h5 class="name"></h5>
+														<p class="date"></p>
+														<div class="review-rating">
+														</div>
+															</div>
+															<div class="review-body">
+																<p></p>
+															</div>
+													</li>
+													</ul>';
+													}
+												}
+												if (($key + 1) % 3 == 0 || $key == $totalRate - 1) echo '</div>';
+											}
+										}
+										?>
 										<ul class="reviews-pagination">
-											<li class="active">1</li>
-											<li><a href="#">2</a></li>
-											<li><a href="#">3</a></li>
-											<li><a href="#">4</a></li>
-											<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+											<ul class="reviews-pagination">
+												<?php
+												if (!$isEmpty || $totalRate >= 3) {
+													for ($i = 1; $i <= $total_tab; $i++) {
+														if ($i == 1) {
+															echo '<li style="margin-right: 4px" class="active"><a data-toggle="tab" href="#tab_review' . $i . '">' . $i . '</a></li>';
+														} else {
+															echo '<li style="margin-right: 4px"><a data-toggle="tab" href="#tab_review' . $i . '">' . $i . '</a></li>';
+														}
+													}
+												}
+												?>
+											</ul>
 										</ul>
 									</div>
 								</div>
@@ -365,24 +437,30 @@ $brand    	  = executeResult($sqlBrand)[0];
 
 								<!-- Review Form -->
 								<div class="col-md-3">
-									<div id="review-form">
-										<form class="review-form">
-											<input class="input" type="text" placeholder="Your Name">
-											<input class="input" type="email" placeholder="Your Email">
-											<textarea class="input" placeholder="Your Review"></textarea>
-											<div class="input-rating">
-												<span>Your Rating: </span>
-												<div class="stars">
-													<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-													<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-													<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-													<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-													<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+									<?php
+									if (isset($_SESSION['username']) && $_SESSION['username']) {
+										echo '<div id="review-form">
+											<form class="review-form" method="POST">
+												<!-- <input class="input" type="text" placeholder="Your Name">
+												<input class="input" type="email" placeholder="Your Email"> -->
+												<textarea class="input" id="rating_content" placeholder="Nhận xét về sản phẩm..."></textarea>
+												<div class="input-rating">
+													<span></span>
+													<div class="stars">
+														<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+														<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+														<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+														<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+														<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+													</div>
 												</div>
-											</div>
-											<button class="primary-btn">Submit</button>
-										</form>
-									</div>
+												<button id="rating-submit-button" type="button" class="primary-btn">Đánh giá</button>
+											</form>
+										</div>';
+									} else {
+										echo '<div id="review-form"><p>Bạn cần đăng nhập để có thể đánh giá</p></div>';
+									}
+									?>
 								</div>
 								<!-- /Review Form -->
 							</div>
@@ -431,7 +509,35 @@ $brand    	  = executeResult($sqlBrand)[0];
 	<!-- /container -->
 </div>
 <!-- /Section -->
+<script>
+	// 
+	$('#review-link-button').click(function() {
+		window.scroll({
+			top: 700,
+			behavior: 'smooth'
+		});
+		$('#tab3-button').click()
+	})
 
+	const rating_content = document.getElementById("rating_content");
+	$('#rating-submit-button').click(function() {
+		const rating_star = document.querySelector('input[name="rating"]:checked').value;
+		const urlParams = new URLSearchParams(window.location.search);
+		const product_id = urlParams.get('product_id');
+		$.ajax({
+			type: "POST",
+			url: "./functions/handlePostComment.php",
+			data: {
+				'rating_content': rating_content.value,
+				'rating_star': rating_star,
+				'product_id': product_id
+			}
+		}).done(function(msg) {
+			alert(msg);
+			window.location.reload();
+		});
+	});
+</script>
 <?php
 require('./inc/footer.php')
 ?>
