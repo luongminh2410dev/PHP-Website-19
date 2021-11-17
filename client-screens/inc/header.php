@@ -2,7 +2,6 @@
 require('../database/dbHelper.php');
 header('Content-Type: text/html; charset=UTF-8');
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -205,11 +204,11 @@ session_start();
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
-                    <li><a href="index.php">Trang chủ</a></li>
-                    <li><a href="store.php">Sản phẩm</a></li>
-                    <li><a href="promotion.php">Khuyến mại</a></li>
-                    <li><a href="policyWarranty.php">Chính sách bảo hành</a></li>
-                    <li><a href="contact.php">Liên hệ</a></li>
+                    <li <?php echo strpos($_SERVER['REQUEST_URI'], 'index.php') ?  'class="active"' : null; ?>><a href="index.php">Trang chủ</a></li>
+                    <li <?php echo strpos($_SERVER['REQUEST_URI'], 'store.php') ?  'class="active"' : null; ?>><a href="store.php">Sản phẩm</a></li>
+                    <li <?php echo strpos($_SERVER['REQUEST_URI'], 'promotion.php') ?  'class="active"' : null; ?>><a href="promotion.php">Khuyến mại</a></li>
+                    <li <?php echo strpos($_SERVER['REQUEST_URI'], 'policyWarranty.php') ?  'class="active"' : null; ?>><a href="policyWarranty.php">Chính sách bảo hành</a></li>
+                    <li <?php echo strpos($_SERVER['REQUEST_URI'], 'contact.php') ? 'class="active"' : null; ?>><a href="contact.php">Liên hệ</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>
