@@ -19,12 +19,13 @@ require('./inc/header.php');
                     <p><b>Công ty CP vô trách nhiệm 3 thành viên Phúc Lộc Thọ</b> là một trong những doanh nghiệp tiên phong trong lĩnh vực Công nghệ thông tin vô trách nhiệm tại Hà Nội.*gọi tắt là “PLT”</p>
                     <p>Văn hóa PLT được thể hiện qua bốn giá trị cốt lõi: <b>TẬN TÂM – TRÁCH NHIỆM – SÁNG TẠO – KHÁC BIỆT</b></p>
                     <ul style="margin-top: 12px; margin-bottom: 12px;" class="footer-links">
-                        <li style="font-size: 16px;"><i class="fa fa-map-marker"></i> Số 3 Cầu Giấy </li>
-                        <li style="font-size: 16px;"><i class="fa fa-phone"></i> +84-921-955-184 </li>
+                        <li style="font-size: 16px;"><i class="fa fa-map-marker"></i> Số 3 Cầu Giấy - Quận Cầu Giấy - Hà Nội </li>
+                        <li style="font-size: 16px;"><i class="fa fa-phone"></i> (+84)0-921-955-184 </li>
                         <li style="font-size: 16px;"><i class="far fa-envelope"></i>luongminh2410dev@gmail.com </li>
                     </ul>
-                    <h4 class="title">Liên hệ với chúng tôi</h4>
-                    <div style="align-items: center;" class="modal__control">
+                    <button id="contact-button" type="button" name="contact-button" class="btn btn_primary">Liên hệ(CSKH)</button>
+                    <h4 style="margin-top: 12px;" class="title">Hoặc các nền tảng khác</h4>
+                    <div style="align-items: center; justify-content: center;" class="modal__control">
                         <div style="margin-right: 12px;" class="newsletter">
                             <ul class="newsletter-follow">
                                 <li>
@@ -41,7 +42,6 @@ require('./inc/header.php');
                                 </li>
                             </ul>
                         </div>
-                        <button id="contact-button" type="button" name="contact-button" class="btn btn_primary">Liên hệ(CSKH)</button>
                     </div>
                 </div>
             </div>

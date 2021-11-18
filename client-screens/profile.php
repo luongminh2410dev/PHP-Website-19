@@ -9,11 +9,11 @@ require('./functions/renderListProduct.php');
         <div class="col-md-7">
             <!-- Billing Details -->
             <div class="billing-details">
-                <div class="section-title">
-                    <h3 class="title">Thông tin tài khoản</h3>
-                </div>
                 <?php
                 if (isset($_SESSION['username']) && $_SESSION['username']) {
+                    echo '<div class="section-title">
+                        <h3 class="title">Thông tin tài khoản</h3>
+                    </div>';
                     $username = $_SESSION['username'];
                     $query = 'SELECT * FROM tbl_user WHERE username = "' . $username . '"';
                     $result = executeResult($query)[0];
@@ -37,12 +37,17 @@ require('./functions/renderListProduct.php');
                                 <input class="input" id="profile-address" type="text" name="profile-address" value="' . $result['address'] . '" placeholder="Địa chỉ">
                             </div>';
                     }
+                    echo ' <div class="modal__control">
+                        <button id="sign-out-button" type="button" class="btn btn_cancel">Đăng xuất</button>
+                        <button id="update-profile-button" type="button" name="update-profile-button" class="btn btn_primary">Cập nhật thông tin</button>
+                    </div>';
+                } else {
+                    echo '<div style="justify-content: center;align-items: center;" class="modal__control">
+                    <i style="margin-right: 12px;">Bạn cần đăng nhập để xem trang này...</i>
+                    <button  onclick="handleShowLoginForm()" type="button" class="btn btn_primary">Đăng nhập</button>
+                </div>';
                 }
                 ?>
-                <div class="modal__control">
-                    <button id="sign-out-button" type="button" class="btn btn_cancel">Đăng xuất</button>
-                    <button id="update-profile-button" type="button" name="update-profile-button" class="btn btn_primary">Cập nhật thông tin</button>
-                </div>
             </div>
         </div>
         <div class="col-md-5 order-details">

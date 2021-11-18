@@ -58,10 +58,11 @@
                     <div class="footer">
                         <h3 class="footer-title">Danh mục</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Khuyến mãi</a></li>
-                            <li><a href="#">Các sản phẩm</a></li>
-                            <li><a href="#">Chính sách bảo hành</a></li>
-                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="index.php">Trang chủ</a></li>
+                            <li><a href="store.php">Sản phẩm</a></li>
+                            <li><a href="promotion.php">Khuyến mãi</a></li>
+                            <li><a href="policyWarranty.php">Chính sách bảo hành</a></li>
+                            <li><a href="contact.php">Liên hệ</a></li>
                             <!-- <li><a href="#">Accessories</a></li> -->
                         </ul>
                     </div>
@@ -86,7 +87,7 @@
                     <div class="footer">
                         <h3 class="footer-title">Dịch vụ</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="profile.php">Tài khoản</a></li>
                             <li><a href="#">Xem giỏ hàng</a></li>
                             <li><a href="#">Danh sách ước</a></li>
                             <li><a href="#">Giao hàng miễn phí</a></li>

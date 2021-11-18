@@ -174,7 +174,7 @@ require('./functions/renderListProduct.php');
 					</ul>
 					<h2 class="text-uppercase">Khuyến mãi sốc trong tuần</h2>
 					<p>Sale Up to 60%</p>
-					<a class="primary-btn cta-btn" href="#">Xem ngay</a>
+					<a class="primary-btn cta-btn" href="promotion.php">Xem ngay</a>
 				</div>
 			</div>
 		</div>
