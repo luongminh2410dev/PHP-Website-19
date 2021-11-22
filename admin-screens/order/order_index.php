@@ -71,9 +71,9 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                                 <label for="status">Trạng thái</label>
                                 <select class="form-select" id="orderStatus">
                                     <option value="0">Chọn trạng thái...</option>
-                                    <option value="1">Đang xử lý</option>
-                                    <option value="2">Đang giao</option>
-                                    <option value="3">Hoàn thành</option>
+                                    <option value="Đang xử lý">Đang xử lý</option>
+                                    <option value="Đang giao">Đang giao</option>
+                                    <option value="Hoàn thành">Hoàn thành</option>
                                 </select>
                             </div>
                         </div>
@@ -91,10 +91,10 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
 
-                            <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Xuất ra excel"
+                            <!-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Xuất ra excel"
                                 class="btn btn-success  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
                                 <i class="fas fa-download"></i>
-                            </button>
+                            </button> -->
                             <a target="_blank" id="btnDelete"
                                 class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
                                 Xoá

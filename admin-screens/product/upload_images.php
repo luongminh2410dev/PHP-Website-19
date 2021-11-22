@@ -1,11 +1,8 @@
 <?php
 
-// include "../../database/dbHelper.php";
-
 function uploadImageAndSaveToDb($name, $idProduct)
 {
     $bool = false;
-
     for ($i = 0; $i < count($_FILES["$name"]["name"]); $i++) {
         $folder = "../../upload-images/";
         $image_url = $_FILES["$name"]["name"][$i];
@@ -20,5 +17,4 @@ function uploadImageAndSaveToDb($name, $idProduct)
     }
     return $bool;
 }
-
 ?>

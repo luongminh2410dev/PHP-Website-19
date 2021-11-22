@@ -16,10 +16,9 @@ $product = executeSingleResult($sqlSelectProduct);
                 <h4 class="page-title">Chỉnh sửa sản phẩm</h4>
             </div>
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <?php
-
+    include "upload_images.php";
     if (isset($_POST['sbm'])) {
 
         $name = $_POST['productName'];
@@ -33,9 +32,11 @@ $product = executeSingleResult($sqlSelectProduct);
         $pin = $_POST['productPin'];
         $connect = $_POST['productConnect'];
         $os = $_POST['productOs'];
+        $intro = $_POST['productIntro'];
         $des = $_POST['productDes'];
         $type_id = $_POST['productTypeId'];
-
+        $productImages = 'productImages';
+        
         $sqlUpdate = "UPDATE tbl_product SET" . " " .
             "name = '$name'," .
             "price = '$price'," .
@@ -45,17 +46,20 @@ $product = executeSingleResult($sqlSelectProduct);
             "ram = '$ram'," .
             "vga = '$vga'," .
             "storage = '$storage'," .
-            "pin = '$pin'," .
+            "battery = '$pin'," .
             "connect = '$connect'," .
             "os = '$os'," .
+            "introtext = '$intro'," .
             "description = '$des'," .
             "type_id = '$type_id'" . " " .
             "WHERE id = $productId";
 
         if (execute($sqlUpdate)) {
-            echo '<div class="alert alert-success" role="alert">
+            if(uploadImageAndSaveToDb($productImages, $productId)){
+                echo '<div class="alert alert-success" role="alert">
                         Cập nhật sản phẩm thành công.
-                </div>';
+                      </div>';
+            }
         } else {
             echo '<div class="alert alert-danger" role="alert">
                     Cập nhật sản phẩm thất bại.
@@ -68,7 +72,7 @@ $product = executeSingleResult($sqlSelectProduct);
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <form action="" method="POST" class="needs-validation" novalidate>
+                    <form action="" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
                         <div class="row">
                             <div class="col-md-6 col-lg-6">
                                 <input type="hidden" name="id">
@@ -102,7 +106,7 @@ $product = executeSingleResult($sqlSelectProduct);
 
                                 <div class="form-group">
                                     <label for="type_id">Loại sản phẩm</label>
-                                    <select class="form-select" name="type_id" id="type_id" required>
+                                    <select class="form-select" name="productTypeId" id="type_id" required>
                                         <?php
 
                                         echo '<option selected disabled value="">Chọn loại sản phẩm...</option>';
@@ -143,7 +147,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productCpu">CPU</label>
+                                    <label for="productCpu">Vi xử lý cpu</label>
                                     <input type="text" class="form-control" name="productCpu" id="productCpu" required
                                         value="<?php echo $product["cpu"] ?>">
                                     <div class="invalid-feedback">
@@ -152,7 +156,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productScreen">SCREEN</label>
+                                    <label for="productScreen">Màn hình</label>
                                     <input type="text" class="form-control" name="productScreen" id="productScreen"
                                         required value="<?php echo $product["screen"] ?>">
                                     <div class="invalid-feedback">
@@ -165,7 +169,7 @@ $product = executeSingleResult($sqlSelectProduct);
                             <div class="col-md-6 col-lg-6">
 
                                 <div class="form-group">
-                                    <label for="productVga">VGA</label>
+                                    <label for="productVga">Card đồ họa</label>
                                     <input type="text" class="form-control" name="productVga" id="productVga" required
                                         value="<?php echo $product["vga"] ?>">
                                     <div class="invalid-feedback">
@@ -174,7 +178,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productRam">RAM</label>
+                                    <label for="productRam">Ram</label>
                                     <input type="text" class="form-control" name="productRam" id="productRam" required
                                         value="<?php echo $product["ram"] ?>">
                                     <div class="invalid-feedback">
@@ -183,7 +187,7 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productStorage">STORAGE</label>
+                                    <label for="productStorage">Ổ cứng</label>
                                     <input type="text" class="form-control" name="productStorage" id="productStorage"
                                         required value="<?php echo $product["storage"] ?>">
                                     <div class="invalid-feedback">
@@ -192,16 +196,16 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productPin">PIN</label>
+                                    <label for="productPin">Pin</label>
                                     <input type="text" class="form-control" name="productPin" id="productPin" required
-                                        value="<?php echo $product["pin"] ?>">
+                                        value="<?php echo $product["battery"] ?>">
                                     <div class="invalid-feedback">
                                         Vui lòng nhập pin.
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productConnect">CONNECT</label>
+                                    <label for="productConnect">Cổng kết nối</label>
                                     <input type="text" class="form-control" name="productConnect" id="productConnect"
                                         required value="<?php echo $product["connect"] ?>">
                                     <div class="invalid-feedback">
@@ -210,15 +214,24 @@ $product = executeSingleResult($sqlSelectProduct);
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productOs">OS</label>
+                                    <label for="productOs">Hề điều hành</label>
                                     <input type="text" class="form-control" name="productOs" id="productOs" required
                                         value="<?php echo $product["os"] ?>">
                                     <div class="invalid-feedback">
                                         Vui lòng nhập hệ điều hành.
                                     </div>
                                 </div>
-
                             </div>
+
+                            <div class="col-lg-12 mt-4">
+                                <label for="productIntro">Mô tả ngắn về sản phẩm</label>
+                                <textarea class="form-control" id="productIntro" name="productIntro" rows="3"
+                                    required><?php echo $product["introtext"] ?></textarea>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập mô tả ngắn.
+                                </div>
+                            </div>
+
                             <div class="col-lg-12 mt-4">
                                 <label>Hình ảnh sản phẩm</label>
                                 <div>
@@ -239,31 +252,30 @@ $product = executeSingleResult($sqlSelectProduct);
                                             foreach ($listImages as $item) {
                                                 echo '<div class="container-image">';
                                                 echo '<img class="preview-image" src="../../upload-images/' . $item['image_url'] . '" height="200" width="200" alt="Anh">';
-                                                echo '<div class="middle"><button class="btnRemoveImg btn btn-danger" onclick="removeImage(this)">Xóa</button></div>';
+                                                echo '<div class="middle"><button type="button" class="btnRemoveImg btn btn-danger" onclick="removeImage(this, '.$item['id'].')">Xóa</button></div>';
                                                 echo '</div>';
                                             }
                                         }
                                         ?>
                                     </div>
-
                                 </div>
                             </div>
 
 
                             <div class="col-lg-12 mt-4">
                                 <div class="form-group">
-                                    <label for="summernote">Mô tả sản phẩm</label>
+                                    <label for="summernote">Bài viết</label>
                                     <br>
                                     <textarea id="summernote" name="productDes" required>
                                         <?php echo $product["description"] ?>
                                     </textarea>
                                     <div class="invalid-feedback">
-                                        Vui lòng nhập mô tả.
+                                        Vui lòng nhập bài viết.
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <input class="btn btn-primary" type="submit" name="sbm" value="Cập nhật"></button>
+                        <input class="btn btn-primary" type="submit" name="sbm" value="Cập nhật"></input>
                     </form>
                 </div>
             </div>
@@ -275,7 +287,7 @@ $product = executeSingleResult($sqlSelectProduct);
         transition: .5s ease;
         backface-visibility: hidden;
         opacity: 1;
-
+        object-fit: contain;
     }
 
     .middle {
@@ -334,7 +346,8 @@ $product = executeSingleResult($sqlSelectProduct);
         var flag = 1;
         const max_images = 4;
 
-        var total_file = document.getElementById("productImages").files.length;
+        const images = Array.from(document.getElementById("productImages").files);
+        var total_file = images.length;
 
         if (total_file <= max_images) {
             for (var i = 0; i < total_file; i++) {
@@ -346,16 +359,16 @@ $product = executeSingleResult($sqlSelectProduct);
                 }
 
                 if (checkFileExist(event.target.files[i].name)) {
-                    alert("File đã tồn tại")
+                    alert("File " + event.target.files[i].name + " đã tồn tại")
                     flag = 0;
                 }
                 if (!checkImageFileType(event.target.files[i].type)) {
-                    alert("Không đúng định dạng file")
+                    alert("File " + event.target.files[i].name + " không đúng định dạng file")
                     flag = 0;
                 }
 
                 if (!checkImageSize(event.target.files[i].size)) {
-                    alert("File quá nặng ( tối đa 500kb )")
+                    alert("File " + event.target.files[i].name + " quá nặng ( tối đa 500kb )")
                     flag = 0;
                 }
 
@@ -378,7 +391,9 @@ $product = executeSingleResult($sqlSelectProduct);
                     button.classList.add('btnRemoveImg', 'btn', 'btn-danger')
                     button.textContent = "Xóa"
                     button.onclick = function() {
-                        $(this).parents('.container-image').remove()
+                        $(this).parents('.container-image').remove();
+                        images.splice(currentIndex, 1);
+                        document.getElementById("productImages").files = updateFileList(images);
                         count_images--;
                     };
 
@@ -392,7 +407,6 @@ $product = executeSingleResult($sqlSelectProduct);
                     div.append(middle)
                     $('#list_image_preview').append(div)
                     count_images++;
-
                 }
             }
         } else {
@@ -407,7 +421,7 @@ $product = executeSingleResult($sqlSelectProduct);
     }
 
     function checkImageSize(size) {
-        return parseInt(size) < 500000;
+        return parseInt(size) < 1500000;
     }
 
     function checkFileExist(fileName) {
@@ -422,8 +436,34 @@ $product = executeSingleResult($sqlSelectProduct);
         return (response != "200") ? false : true;
     }
 
-    function removeImage(input) {
-        $(input).parents('.container-image').remove()
-        count_images--;
+    function removeImage(input, id) {
+        $.ajax({
+            url: "product_delete.php",
+            type: "post",
+            dataType: "json",
+            data: {
+                product_detail_id: id
+            },
+            success: function(response) {
+                if (response === 'success') {
+                    // $("#whishlist").load(" #whishlist > *");
+                    $(input).parents('.container-image').remove()
+                    count_images--;
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, errorThrown);
+            }
+        });
+    }
+
+    function updateFileList(fileList) {
+        var list = new DataTransfer();
+        fileList.forEach(function(item) {
+            let file = new File(["content"], item.name);
+            list.items.add(file);
+        })
+        var myFileList = list.files;
+        return myFileList;
     }
     </script>

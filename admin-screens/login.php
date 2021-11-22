@@ -86,7 +86,7 @@
                              </div>';
                     } else {
                         $_SESSION['admin'] = $user;
-                        header("location: product/product_index.php");
+                        header("location: dashboard.php");
                     }
                 }
                 ?>

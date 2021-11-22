@@ -101,7 +101,7 @@
         <!-- /container -->
     </div>
     <!-- /top footer -->
-
+    <div id="snackbar"></div>
 </footer>
 <?php
 require('./inc/login-form.php');
@@ -156,6 +156,7 @@ require('./inc/register-form.php');
 <script src="./js/slick.min.js"></script>
 <script src="./js/nouislider.min.js"></script>
 <script src="./js/main.js"></script>
+<script src="./js/cart.js"></script>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use

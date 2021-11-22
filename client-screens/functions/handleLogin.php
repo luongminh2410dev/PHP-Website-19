@@ -11,10 +11,7 @@ if (!$username || !$password) {
     if ($result == null) {
         echo "Tài khoản hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.";
     } else {
-        // Lưu tên đăng nhập
-        $_SESSION['username'] = $username;
-        $_SESSION['fullname'] = $result[0]['name'];
-        $_SESSION['user_id'] = $result[0]['id'];
+        $_SESSION['user'] = $result[0];
         echo "Đăng nhập thành công!";
     }
 }

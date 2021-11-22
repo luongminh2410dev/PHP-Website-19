@@ -2,6 +2,7 @@
 require('../database/dbHelper.php');
 header('Content-Type: text/html; charset=UTF-8');
 session_start();
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,7 @@ session_start();
     <script src="./js/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/jquery.zoom.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 
 </head>
 
@@ -56,10 +57,10 @@ session_start();
                     <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
                     <li>
                         <?php
-                        if (isset($_SESSION['username']) && isset($_SESSION['fullname'])) {
+                        if (isset($_SESSION['user'])) {
                             echo '<a onclick="handleRedirectProfile()" id="btn_login" href="#">
                                 <i class="far fa-user"></i>
-                                ' . $_SESSION['fullname'] . ' </a>';
+                                ' . $_SESSION['user']['name'] . ' </a>';
                         } else {
                             echo '<a onclick="handleShowLoginForm()" id="btn_login" href="#">
                                 <i class="far fa-user"></i>
@@ -124,55 +125,82 @@ session_start();
                     <div class="col-md-3 clearfix">
                         <div class="header-ctn">
                             <!-- Wishlist -->
-                            <div>
-                                <a href="#">
-                                    <!-- <i class="fa fa-heart-o"></i> -->
-                                    <i class="fas fa-heart"></i>
-                                    <span>Wishlist</span>
-                                    <div class="qty">2</div>
-                                </a>
+                            <div id="whishlist">
+                                <?php
+                                if (isset($_SESSION['user'])) {
+                                    echo '<a href="whishlist_page.php">';
+                                    echo '<i class="fas fa-heart"></i>';
+                                    echo '<span>Wishlist</span>';
+                                    $user = $_SESSION['user'];
+                                    $user_id = $user['id'];
+                                    $sql = "SELECT * FROM tbl_whishlist WHERE user_id = $user_id";
+                                    $result = executeResult($sql);
+                                    echo '<div class="qty">' . count($result) . '</div>';
+                                    echo '</a>';
+                                } else {
+                                    echo '<a href="#" onclick="handleShowLoginForm()">';
+                                    echo '<i class="fas fa-heart"></i>';
+                                    echo '<span>Wishlist</span>';
+                                    echo '<div class="qty">0</div>';
+                                    echo '</a>';
+                                }
+                                ?>
                             </div>
                             <!-- /Wishlist -->
 
                             <!-- Cart -->
-                            <div class="dropdown">
+                            <div class="dropdown" id="cart">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
                                     <span>Giỏ Hàng</span>
-                                    <div class="qty">3</div>
+                                    <div class="qty">
+                                        <?php
+                                        if (empty($_SESSION['cart'])) {
+                                            echo 0;
+                                        } else {
+                                            echo count($_SESSION['cart']);
+                                        }
+                                        ?>
+                                    </div>
                                 </a>
                                 <div class="cart-dropdown">
-                                    <div class="cart-list">
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="./images/product01.png" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
+                                    <?php
+                                    if (empty($_SESSION['cart'])) {
+                                        echo "<p>Chưa có sản phẩm nào trong giỏ hàng</p>";
+                                    } else {
+                                        echo '<div class="cart-list">';
+                                        $totalOrder = 0;
+                                        $count = count($_SESSION['cart']);
+                                        for ($i = 0; $i < $count; $i++) {
+                                            $price = number_format($_SESSION['cart'][$i]["price"], 0, ',', '.');
+                                            echo '<div class="product-widget">';
+                                            echo '<div class="product-img">';
+                                            echo '<img src="' . $_SESSION['cart'][$i]["imageUrl"] . '" alt="">';
+                                            echo '</div>';
+                                            echo '<div class="product-body">';
+                                            echo '<h3 class="product-name"><a href="#">' . $_SESSION['cart'][$i]["name"] . '</a></h3>';
+                                            echo '<h4 class="product-price"><span class="qty">' . $_SESSION['cart'][$i]["quantity"] . 'x</span>' . $price . ' đ</h4>';
+                                            echo '</div>';
+                                            echo '<button class="delete" onclick="removeFromCart(' . $i . ')"><i class="fa fa-close"></i></button>';
+                                            echo '</div>';
+                                            $totalOrder += $_SESSION['cart'][$i]["total"];
+                                        }
+                                        echo '</div>';
+                                        echo '<div class="cart-summary">';
+                                        echo '<small>' . $count . ' Item(s) selected</small>';
+                                        echo '<h5>SUBTOTAL: ' . number_format($totalOrder, 0, ',', '.') . ' đ</h5>';
+                                        echo '</div>';
+                                        echo '<div class="cart-btns">';
+                                        echo '<a href="cart_page.php">View Cart</a>';
+                                        if (isset($_SESSION['user'])) {
+                                            echo '<a href="checkout.php">Checkout <i class="fa fa-arrow-circle-right"></i></a>';
+                                        } else {
+                                            echo '<a href="#" onclick="handleShowLoginForm()">Checkout <i class="fa fa-arrow-circle-right"></i></a>';
+                                        }
+                                        echo '</div>';
+                                    }
+                                    ?>
 
-                                        <div class="product-widget">
-                                            <div class="product-img">
-                                                <img src="./images/product02.png" alt="">
-                                            </div>
-                                            <div class="product-body">
-                                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                                <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                            </div>
-                                            <button class="delete"><i class="fa fa-close"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="cart-summary">
-                                        <small>3 Item(s) selected</small>
-                                        <h5>SUBTOTAL: $2940.00</h5>
-                                    </div>
-                                    <div class="cart-btns">
-                                        <a href="#">View Cart</a>
-                                        <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>
                                 </div>
                             </div>
                             <!-- /Cart -->

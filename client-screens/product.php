@@ -52,7 +52,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 					<?php
 					foreach ($listImage as $item) {
 						echo '<div class="product-preview">
-									<img src="' . $item['image_url'] . '" alt="">
+									<img src="../upload-images/' . $item['image_url'] . '" alt="">
 								</div>';
 					}
 					?>
@@ -66,7 +66,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 					<?php
 					foreach ($listImage as $item) {
 						echo '<div class="product-preview">
-									<img style="width: auto; height:150px;" src="' . $item['image_url'] . '" alt="">
+									<img style="width: auto; height:150px;" src="../upload-images/' . $item['image_url'] . '" alt="">
 								</div>';
 					}
 					?>
@@ -114,7 +114,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 				</div>
 
 				<div class="add-to-cart">
-					<button class="add-to-cart-btn" ' . $isDisable . ' >' . $iconDisable . '' . $status . '</button>
+					<button onclick="addToCartWithQuantity(' . $product['id'] . ')" class="add-to-cart-btn" ' . $isDisable . ' >' . $iconDisable . '' . $status . '</button>
 				</div>
 
 					<a href="#"><i class="fa fa-heart-o"></i> Thêm vào danh sách ước</a>

@@ -20,14 +20,12 @@ if (isset($_SESSION['admin'])) {
     <meta name="description"
         content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Ample Admin Lite Template by WrapPixel</title>
+    <title>Quản lý website</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="../assets/image/png" sizes="16x16" href="./images/favicon.png">
     <!-- Custom CSS -->
-    <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" /> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
     <link href="../assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
     <link rel="stylesheet"
@@ -41,61 +39,40 @@ if (isset($_SESSION['admin'])) {
 </head>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
+
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
+
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-header" data-logobg="skin6">
-                    <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
+
                     <a class="navbar-brand" href="dashboard.html">
-                        <!-- Logo icon -->
+
                         <b class="logo-icon">
-                            <!-- Dark Logo icon -->
+
                             <img src="../assets/images/logo-icon.png" alt="homepage" />
                         </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
+
                         <span class="logo-text">
-                            <!-- dark Logo text -->
+
                             <img src="../assets/images/logo-text.png" alt="homepage" />
                         </span>
                     </a>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
+
                     <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                         href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
+
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
 
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
-
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
                         <li class=" in">
                             <form role="search" class="app-search d-none d-md-block me-3">
                                 <input type="text" placeholder="Search..." class="form-control mt-0">
@@ -104,19 +81,14 @@ if (isset($_SESSION['admin'])) {
                                 </a>
                             </form>
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
 
                         <li>
-                            <a class="profile-pic" href="#">
+                            <a class="profile-pic" href="../profile/profile_index.php">
                                 <img src="../assets/images/users/varun.jpg" alt="user-img" width="36"
                                     class="img-circle"><span
                                     class="text-white font-medium"><?php echo $user['name'] ?></span></a>
+                            <a class="profile-pic" href="../profile/logout.php">Đăng xuất</a>
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                     </ul>
                 </div>
             </nav>

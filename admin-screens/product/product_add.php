@@ -8,9 +8,7 @@
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Thêm mới sản phẩm</h4>
             </div>
-
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <?php
     include "../../database/dbHelper.php";
@@ -30,11 +28,12 @@
         $connect = $_POST['productConnect'];
         $os = $_POST['productOs'];
         $type_id = $_POST['productTypeId'];
+        $intro = $_POST['productIntro'];
         $des = $_POST['productDes'];
-        $productImages = "productImages";
-
-        $sqlAdd =  "INSERT INTO tbl_product (name, price, old_price, cpu, screen, ram, vga, storage, pin, connect, os, description, type_id)
-                    VALUES ('$name', '$price', '$old_price', '$cpu', '$screen','$ram', '$vga', '$storage', '$pin', '$connect', '$os', '$des', '$type_id')";
+        $productImages = 'productImages';
+        
+        $sqlAdd =  "INSERT INTO tbl_product (name, price, old_price, cpu, screen, ram, vga, storage, battery, connect, os, introtext, description, type_id)
+                    VALUES ('$name', '$price', '$old_price', '$cpu', '$screen','$ram', '$vga', '$storage', '$pin', '$connect', '$os', '$intro', '$des', '$type_id')";
 
         $idReturn = executeReturnId($sqlAdd);
         if ($idReturn > 0 && uploadImageAndSaveToDb($productImages, $idReturn)) {
@@ -128,7 +127,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productCpu">CPU</label>
+                                    <label for="productCpu">Vi xử lý cpu</label>
                                     <input type="text" class="form-control" name="productCpu" id="productCpu" required>
                                     <div class="invalid-feedback">
                                         Vui lòng nhập cpu.
@@ -136,7 +135,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productScreen">SCREEN</label>
+                                    <label for="productScreen">Màn hình</label>
                                     <input type="text" class="form-control" name="productScreen" id="productScreen"
                                         required>
                                     <div class="invalid-feedback">
@@ -148,7 +147,7 @@
                             <div class="col-md-6 col-lg-6">
 
                                 <div class="form-group">
-                                    <label for="productVga">VGA</label>
+                                    <label for="productVga">Card đồ họa</label>
                                     <input type="text" class="form-control" name="productVga" id="productVga" required>
                                     <div class="invalid-feedback">
                                         Vui lòng nhập card đồ họa.
@@ -156,7 +155,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productRam">RAM</label>
+                                    <label for="productRam">Ram</label>
                                     <input type="text" class="form-control" name="productRam" id="productRam" required>
                                     <div class="invalid-feedback">
                                         Vui lòng nhập ram.
@@ -164,7 +163,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productStorage">STORAGE</label>
+                                    <label for="productStorage">Ổ cứng</label>
                                     <input type="text" class="form-control" name="productStorage" id="productStorage"
                                         required>
                                     <div class="invalid-feedback">
@@ -173,7 +172,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productPin">PIN</label>
+                                    <label for="productPin">Pin</label>
                                     <input type="text" class="form-control" name="productPin" id="productPin" required>
                                     <div class="invalid-feedback">
                                         Vui lòng nhập pin.
@@ -181,7 +180,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productConnect">CONNECT</label>
+                                    <label for="productConnect">Cổng kết nối</label>
                                     <input type="text" class="form-control" name="productConnect" id="productConnect"
                                         required>
                                     <div class="invalid-feedback">
@@ -190,13 +189,21 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="productOs">OS</label>
+                                    <label for="productOs">Hệ điều hành</label>
                                     <input type="text" class="form-control" name="productOs" id="productOs" required>
                                     <div class="invalid-feedback">
                                         Vui lòng nhập hệ điều hành.
                                     </div>
                                 </div>
 
+                            </div>
+                            <div class="col-lg-12 mt-4">
+                                <label for="productIntro">Mô tả ngắn về sản phẩm</label>
+                                <textarea class="form-control" id="productIntro" name="productIntro" rows="3"
+                                    required></textarea>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập mô tả ngắn.
+                                </div>
                             </div>
                             <div class="col-lg-12 mt-4">
                                 <label>Hình ảnh sản phẩm</label>
@@ -218,11 +225,11 @@
 
                             <div class="col-lg-12 mt-4">
                                 <div class="form-group">
-                                    <label for="summernote">Mô tả sản phẩm</label>
+                                    <label for="summernote">Bài viết</label>
                                     <br>
                                     <textarea id="summernote" name="productDes" required></textarea>
                                     <div class="invalid-feedback">
-                                        Vui lòng nhập mô tả.
+                                        Vui lòng nhập bài viết.
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +246,7 @@
         transition: .5s ease;
         backface-visibility: hidden;
         opacity: 1;
-
+        object-fit: contain;
     }
 
     .middle {
@@ -295,8 +302,8 @@
     function previewFile(input) {
         var flag = 1;
         const max_images = 4;
-
-        var total_file = document.getElementById("productImages").files.length;
+        const images = Array.from(document.getElementById("productImages").files);
+        var total_file = images.length;
 
         if (total_file <= max_images) {
             for (var i = 0; i < total_file; i++) {
@@ -308,16 +315,16 @@
                 }
 
                 if (checkFileExist(event.target.files[i].name)) {
-                    alert("File đã tồn tại")
+                    alert("File " + event.target.files[i].name + " đã tồn tại")
                     flag = 0;
                 }
                 if (!checkImageFileType(event.target.files[i].type)) {
-                    alert("Không đúng định dạng file")
+                    alert("File " + event.target.files[i].name + " không đúng định dạng file")
                     flag = 0;
                 }
 
                 if (!checkImageSize(event.target.files[i].size)) {
-                    alert("File quá nặng ( tối đa 500kb )")
+                    alert("File " + event.target.files[i].name + " quá nặng ( tối đa 500kb )")
                     flag = 0;
                 }
 
@@ -337,22 +344,24 @@
 
                     //element remove
                     var button = document.createElement("button");
-                    button.classList.add('btnRemoveImg', 'btn', 'btn-danger')
-                    button.textContent = "Xóa"
+                    button.classList.add('btnRemoveImg', 'btn', 'btn-danger');
+                    button.textContent = "Xóa";
                     button.onclick = function() {
-                        $(this).parents('.container-image').remove()
+                        $(this).parents('.container-image').remove();
+                        images.splice(currentIndex, 1);
+                        document.getElementById("productImages").files = updateFileList(images);
                         count_images--;
                     }
 
                     //element middle
                     var middle = document.createElement("div");
-                    middle.classList.add('middle')
+                    middle.classList.add('middle');
 
                     //add elements
-                    middle.append(button)
-                    div.append(elem)
-                    div.append(middle)
-                    $('#list_image_preview').append(div)
+                    middle.append(button);
+                    div.append(elem);
+                    div.append(middle);
+                    $('#list_image_preview').append(div);
                     count_images++;
 
                 }
@@ -369,7 +378,7 @@
     }
 
     function checkImageSize(size) {
-        return parseInt(size) < 500000;
+        return parseInt(size) < 1500000;
     }
 
     function checkFileExist(fileName) {
@@ -382,5 +391,15 @@
         }).status;
 
         return (response != "200") ? false : true;
+    }
+
+    function updateFileList(fileList) {
+        var list = new DataTransfer();
+        fileList.forEach(function(item) {
+            let file = new File(["content"], item.name);
+            list.items.add(file);
+        })
+        var myFileList = list.files;
+        return myFileList;
     }
     </script>

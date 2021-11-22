@@ -11,30 +11,29 @@ $sqlSelectDetailOrder = "SELECT tbl_product.name, tbl_detail_order.quantity, tbl
 $detail_order = executeResult($sqlSelectDetailOrder);
 ?>
 <div class="page-wrapper">
-
     <div class="page-breadcrumb bg-white">
         <div class="row align-items-center">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Chi tiết hóa đơn</h4>
             </div>
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <?php
-    if (isset($_POST['name']) && isset($_POST['brand_id'])) {
 
-        $name = $_POST['name'];
-        $brand_id = $_POST['brand_id'];
-        $sqlUpdate = "UPDATE tbl_category_type SET name = '$name', brand_id = $brand_id WHERE id = $categoryId";
+    if (isset($_POST['sbm'])) {
+
+        $status = $_POST['statusOrder'];
+       
+        $sqlUpdate = "UPDATE tbl_order SET status = '$status' WHERE id = $orderId";
 
         if (execute($sqlUpdate)) {
             echo '<div class="alert alert-success" role="alert">
-                    Cập nhật thành công.
-            </div>';
+                        Cập nhật hóa đơn thành công.
+                </div>';
         } else {
             echo '<div class="alert alert-danger" role="alert">
-                Cập nhật thất bại.
-            </div>';
+                    Cập nhật hóa đơn thất bại.
+                </div>';
         }
     }
     ?>
@@ -99,15 +98,14 @@ $detail_order = executeResult($sqlSelectDetailOrder);
                         </div>
                         <div style="display: flex;align-items: baseline;" class="mb-3">
                             <label class="me-2">Trạng thái</label>
-                            <select class="form-select" style="width: 200px;">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-select" style="width: 200px;" id="statusOrder" name="statusOrder">
+                                <option value="Đang xử lý">Đang xử lý</option>
+                                <option value="Đang giao">Đang giao</option>
+                                <option value="Hoàn thành">Hoàn thành</option>
                             </select>
                         </div>
                         <div style="display: flex;justify-content: space-between;">
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <input class="btn btn-primary" type="submit" name="sbm" value="Cập nhật"></input>
                             <button type="button" class="btn btn-secondary" onclick="window.print()">In hóa đơn</button>
                         </div>
                     </form>
@@ -120,7 +118,7 @@ $detail_order = executeResult($sqlSelectDetailOrder);
     (function() {
         'use strict'
 
-        $('#brand_id').val(<?php echo $category["brand_id"] ?>);
+        $('#statusOrder').val('<?php echo $order['status'] ?>');
 
         const forms = document.querySelectorAll('.needs-validation')
         Array.from(forms)

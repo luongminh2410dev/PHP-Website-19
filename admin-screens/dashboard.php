@@ -1,10 +1,17 @@
 <?php
+include '../database/dbHelper.php';
 session_start();
 if (isset($_SESSION['admin'])) {
     $user = $_SESSION['admin'];
 } else {
     header("location: login.php");
 }
+$sqlProduct = "SELECT * FROM tbl_product";
+$sqlUser = "SELECT * FROM tbl_user";
+$sqlOrder= "SELECT * FROM tbl_order";
+$countProduct = count(executeResult($sqlProduct));
+$countUser = count(executeResult($sqlUser));
+$countOrder = count(executeResult($sqlOrder));
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -75,10 +82,11 @@ if (isset($_SESSION['admin'])) {
                             </form>
                         </li>
                         <li>
-                            <a class="profile-pic" href="#">
+                            <a class="profile-pic" href="profile/profile_index.php">
                                 <img src="assets/images/users/varun.jpg" alt="user-img" width="36"
                                     class="img-circle"><span
                                     class="text-white font-medium"><?php echo $user['name'] ?></span></a>
+                            <a class="profile-pic" href="../profile/logout.php">Đăng xuất</a>
                         </li>
                     </ul>
                 </div>
@@ -151,68 +159,48 @@ if (isset($_SESSION['admin'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Visit</h3>
+                            <h3 class="box-title">Người dùng</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success">659</span></li>
+                                <li class="ms-auto"><span class="counter text-success"><?php echo $countUser ?></span>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Total Page Views</h3>
+                            <h3 class="box-title">Sản phẩm</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash2"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-purple">869</span></li>
+                                <li class="ms-auto"><span class="counter text-purple"><?php echo $countProduct ?></span>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Unique Visitor</h3>
+                            <h3 class="box-title">Hóa đơn</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash3"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info">911</span>
+                                <li class="ms-auto"><span class="counter text-info"><?php echo $countOrder ?></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                        <div class="white-box">
-                            <h3 class="box-title">Products Yearly Sales</h3>
-                            <div class="d-md-flex">
-                                <ul class="list-inline d-flex ms-auto">
-                                    <li class="ps-3">
-                                        <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
-                                    </li>
-                                    <li class="ps-3">
-                                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="ct-visits" style="height: 405px;">
-                                <div class="chartist-tooltip" style="top: -17px; left: -12px;"><span
-                                        class="chartist-tooltip-value">6</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
                     href="https://www.wrappixel.com/">wrappixel.com</a>

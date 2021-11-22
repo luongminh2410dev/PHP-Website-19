@@ -1,7 +1,7 @@
 <?php
 function renderListProduct($sql, $grid)
 {
-	$newGrid      = is_string($grid) ? $grid : 'col-md-4 col-xs-6';
+	$newGrid     = is_string($grid) ? $grid : 'col-md-4 col-xs-6';
 	$listProduct = executeResult($sql);
 	is_array($listProduct) ? array_splice($listProduct, 12) : null;
 	// lay cac loai sp
@@ -27,7 +27,7 @@ function renderListProduct($sql, $grid)
 		echo '<div class="' . $newGrid . '">
 		<div  class="product">
 			<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product-img">
-				<img src=' . $item['image_url'] . ' style="object-fit:contain; padding: 0 10px 0 10px;"  height="280" alt="Image Product">
+				<img src="../upload-images/' . $item['image_url'] . '" style="object-fit:contain; padding: 0 10px 0 10px;"  height="280" alt="Image Product">
 				<div class="product-label">
 					<span style="display: ' . $isDiscount . '"  class="sale">- ' . $salePercent . '%</span>
 					<span style="display: ' . $isNew . '" class="new">NEW</span>
@@ -46,14 +46,18 @@ function renderListProduct($sql, $grid)
 					<i class="fa fa-star"></i>
 					<i class="fa fa-star"></i>
 				</div>
-				<div class="product-btns">
-					<button class="add-to-wishlist"><i class="fas fa-heart"></i><span class="tooltipp">Thêm vào wishlist</span></button>
-					<button class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp">So sánh</span></button>
+				<div class="product-btns">';
+		if (isset($_SESSION['user'])) {
+			echo '<button class="add-to-wishlist" onclick="addToWhishlist(' . $item['id'] . ')"><i class="fas fa-heart"></i><span class="tooltipp">add to wishlist</span></button>';
+		} else {
+			echo '<button class="add-to-wishlist" onclick="handleShowLoginForm()"><i class="fas fa-heart"></i><span class="tooltipp">add to wishlist</span></button>';
+		}
+		echo '<button class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp">So sánh</span></button>
 					<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
 				</div>
 			</div>
 			<div class="add-to-cart">
-				<button onclick="handleAddToCart()" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
+				<button onclick="addToCart(' . $item['id'] . ')" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> thêm vào giỏ</button>
 			</div>
 		</div>
 		</div>';

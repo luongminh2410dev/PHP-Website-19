@@ -1,6 +1,6 @@
 <?php
 include "../../database/dbHelper.php";
-$sql = "SELECT * FROM tbl_product";
+$sql = "SELECT * FROM tbl_product INNER JOIN tbl_product_details ON tbl_product.id = tbl_product_details.id_product GROUP BY tbl_product.id";
 $listProducts = executeResult($sql);
 $limitItem = 5;
 $totalPage = ceil(count($listProducts) / $limitItem);
@@ -176,7 +176,7 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                                         <div class='action-item'>
                                             <a onclick='showDetailProduct($productId)' class=''><i
                                                     class='fas fa-info'></i></a>
-                                            <a href='' class=''><i class='fas fa-trash-alt'></i></a>
+                                            <a href=''><i class='fas fa-trash-alt'></i></a>
                                             <a href='product_edit.php?id=$productId' class=''><i
                                                     class='fas fa-edit'></i></a>
                                         </div>
@@ -287,6 +287,27 @@ $totalPage = ceil(count($listProducts) / $limitItem);
         }
     });
 
+    function deleteItem(id) {
+        let confirmAction = confirm("Bạn có chắc chắn muốn xóa?");
+        if (confirmAction) {
+            $.ajax({
+                url: "product_delete.php",
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    alert("Xóa thành công");
+                    location.reload();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR, errorThrown);
+                }
+            })
+        }
+    }
+
     var totalPage = <?php echo $totalPage; ?>;
     var limitItem = <?php echo $limitItem; ?>;
     $('#pagination').twbsPagination({
@@ -330,8 +351,9 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                             tdCheck.insertAdjacentHTML('beforeend', strCheck);
                             var tdImage = document.createElement("td");
                             var strImage =
-                                '<img src="https://lumen.thinkpro.vn//backend/uploads/product/avatar/2021/10/16/nitro5-an515-57-bl-rgb-an515-57-54mv-thinkprojpg" ' +
-                                'alt = "" width = "70" height = "70"class = "image">';
+                                '<img src="../../upload-images/' + item.image_url +
+                                '" ' +
+                                'alt = "" style="object-fit:contain" width = "70" height = "70"class = "image">';
                             tdImage.insertAdjacentHTML('beforeend', strImage);
                             var tdName = document.createElement("td");
                             tdName.innerHTML = item.name;
@@ -350,8 +372,8 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                                 '<a onclick="showDetailProduct(' + item.id +
                                 ')"><i class="fas fa-eye"></i>' +
                                 '</a>' +
-                                '<a href="product_delete.php?id=' + item.id +
-                                '"><i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
+                                '<a onclick="deleteItem(' + item.id +
+                                ')"><i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
                                 '<a href="product_edit.php?id=' + item.id +
                                 '"><i class="fas fa-edit"></i></a>' +
                                 '</div>';
@@ -464,8 +486,10 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                                         var tdImage = document
                                             .createElement("td");
                                         var strImage =
-                                            '<img src="https://lumen.thinkpro.vn//backend/uploads/product/avatar/2021/10/16/nitro5-an515-57-bl-rgb-an515-57-54mv-thinkprojpg" ' +
-                                            'alt = "" width = "70" height = "70"class = "image">';
+                                            '<img src="../../upload-images/' +
+                                            item.image_url +
+                                            '" ' +
+                                            'alt = "" style="object-fit:contain" width = "70" height = "70"class = "image">';
                                         tdImage.insertAdjacentHTML(
                                             'beforeend',
                                             strImage);
@@ -493,9 +517,9 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                                             item.id +
                                             ')"><i class=" fas fa-eye"></i>' +
                                             '</a>' +
-                                            '<a href="product_delete.php?id=' +
-                                            item.id +
-                                            '"><i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
+                                            '<a onclick="deleteItem(' +
+                                            item.id + ')">' +
+                                            '<i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
                                             '<a href="product_edit.php?id=' +
                                             item.id +
                                             '"><i class="fas fa-edit"></i></a>' +
@@ -544,7 +568,7 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                 response.images.forEach(function showImages(item, index) {
                     var strImage =
                         '<img src="../../upload-images/' + item.image_url + '" ' +
-                        'alt = "" width = "150" height = "150">';
+                        'alt = "" style="object-fit:contain" width = "150" height = "150">';
                     $('#images').append(strImage);
                 })
                 $('#NAME').text(response.product.name)
@@ -553,7 +577,7 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                 $('#VGA').text(response.product.vga)
                 $('#RAM').text(response.product.ram)
                 $('#STORAGE').text(response.product.storage)
-                $('#PIN').text(response.product.pin)
+                $('#PIN').text(response.product.battery)
                 $('#CONNECT').text(response.product.connect)
                 $('#OS').text(response.product.os)
                 myModal.show()
