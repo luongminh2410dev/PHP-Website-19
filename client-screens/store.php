@@ -206,7 +206,7 @@ $query = $query_header . ' ' . $query_filter . ' ' . $query_footer;
 						$old_price		= number_format($item['price'] + 1000000, 0, ',', '.');
 						echo '<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product-widget">
 							<div class="product-img">
-								<img src="' . $item['image'] . '" alt="">
+								<img src="../upload-images/' . $item['image'] . '" alt="">
 							</div>
 							<div class="product-body">
 								<p class="product-category">' . $item['brand_type'] . '</p>

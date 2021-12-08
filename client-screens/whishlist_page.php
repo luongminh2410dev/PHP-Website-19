@@ -22,7 +22,7 @@ require('./inc/header.php');
                 echo '<div style="display: flex;justify-content: space-between;align-items: center;">';
 
                 echo '<div style="display:flex;align-items:center;width:400px;">';
-                echo '<img src="' . $image["image_url"] . '" style="object-fit:contain;" alt="" width="150px" height="150px">';
+                echo '<img src="../upload-images/' . $image["image_url"] . '" style="object-fit:contain;" alt="" width="150px" height="150px">';
                 echo '<div style="padding:10px;display:flex;flex-direction:column">';
                 echo '<a href="#">' . $item["name"] . '</a>';
                 echo '<button style="margin-top:15px;width:180px" type="button" onclick="addToCart(' . $item["product_id"] . ')" class="primary-btn order-submit">Thêm vào giỏ</button>';

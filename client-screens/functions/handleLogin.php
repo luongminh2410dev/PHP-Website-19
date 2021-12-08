@@ -6,6 +6,7 @@ $password = addslashes($_POST['login-password']);
 if (!$username || !$password) {
     echo "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.";
 } else {
+    $password = md5($password);
     $query = "SELECT * FROM tbl_user WHERE username='$username' AND password='$password'";
     $result = executeResult($query);
     if ($result == null) {

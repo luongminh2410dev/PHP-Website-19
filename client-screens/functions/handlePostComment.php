@@ -3,7 +3,7 @@ require('../../database/dbHelper.php');
 session_start();
 $rating_content = addslashes($_POST['rating_content']);
 $rating_star = addslashes($_POST['rating_star']);
-$user_id = addslashes($_SESSION['user_id']);
+$user_id = addslashes($_SESSION['user']['id']);
 $product_id = addslashes($_POST['product_id']);
 // check user has bought product
 $queryCheckBought = "SELECT tbl_order.user_id, tbl_detail_order.product_id FROM `tbl_order` INNER JOIN tbl_detail_order 

@@ -12,7 +12,7 @@ if (isset($_POST['sbm']) && isset($_SESSION['cart'])) {
 	$phone = $_POST['tel'];
 	$totalAll = $_POST['totalOrder'];
 	$sqlAddOrder =  "INSERT INTO tbl_order (user_id, user_name, user_phone, user_email, user_address, total, status)" .
-		" VALUES ('$user_id', '$username', '$phone', '$email','$address', '$totalAll', 'Đang xử lý')";
+		" VALUES ('$user_id', '$username', '$phone', '$email','$address', '$totalAll', 'Đang chờ xử lý')";
 	$idReturn = executeReturnId($sqlAddOrder);
 	if ($idReturn > 0) {
 		$count = count($_SESSION['cart']);

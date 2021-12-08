@@ -19,6 +19,7 @@ elseif (executeResult($query1) != null) {
     echo "Số điện thoại này đã được đăng ký";
     exit;
 } else {
+    $password = md5($password);
     $queryInsert = 'INSERT INTO tbl_user (username, password, name, phone , role_id) VALUE ("' . $username . '","' . $password . '","' . $fullname . '","' . $phoneNumber . '", 2)';
     $result = execute($queryInsert);
     echo 'Đăng ký thành công!';

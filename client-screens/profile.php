@@ -10,11 +10,11 @@ require('./functions/renderListProduct.php');
             <!-- Billing Details -->
             <div class="billing-details">
                 <?php
-                if (isset($_SESSION['username']) && $_SESSION['username']) {
+                if (isset($_SESSION['user'])) {
                     echo '<div class="section-title">
                         <h3 class="title">Thông tin tài khoản</h3>
                     </div>';
-                    $username = $_SESSION['username'];
+                    $username = $_SESSION['user']['username'];
                     $query = 'SELECT * FROM tbl_user WHERE username = "' . $username . '"';
                     $result = executeResult($query)[0];
                     if ($result != null) {
@@ -38,7 +38,7 @@ require('./functions/renderListProduct.php');
                             </div>';
                     }
                     echo ' <div class="modal__control">
-                        <button id="sign-out-button" type="button" class="btn btn_cancel">Đăng xuất</button>
+                        <button id="sign-out-button-2" type="button" class="btn btn_cancel">Đăng xuất</button>
                         <button id="update-profile-button" type="button" name="update-profile-button" class="btn btn_primary">Cập nhật thông tin</button>
                     </div>';
                 } else {
@@ -68,7 +68,7 @@ require('./functions/renderListProduct.php');
                         $old_price        = number_format($item['price'] + 1000000, 0, ',', '.');
                         echo '<div onclick="handleRedirectProduct(' . $item['id'] . ')" class="product-widget">
 							<div class="product-img">
-								<img src="' . $item['image_url'] . '" alt="">
+								<img src="../upload-images/' . $item['image_url'] . '" alt="">
 							</div>
 							<div class="product-body">
 								<p class="product-category">' . $item['brand_type'] . '</p>
@@ -93,7 +93,7 @@ require('./functions/renderListProduct.php');
     const fullnameField = document.getElementById('profile-fullname');
     const emailField = document.getElementById('profile-email');
     const addressField = document.getElementById('profile-address');
-    $('#sign-out-button').click(function() {
+    $('#sign-out-button-2').click(function() {
         $.ajax({
             type: "POST",
             url: "./functions/handleLogout.php"
@@ -113,9 +113,6 @@ require('./functions/renderListProduct.php');
                 'address': addressField.value
             }
         }).done(function(msg) {
-            // msg != null ?
-            //     alert('Cập nhật thành công') :
-            //     alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
             alert(msg);
             location.reload();
         });

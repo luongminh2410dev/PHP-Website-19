@@ -58,9 +58,17 @@ ob_start();
                     <li>
                         <?php
                         if (isset($_SESSION['user'])) {
-                            echo '<a onclick="handleRedirectProfile()" id="btn_login" href="#">
+                            echo '
+                                <div class="dropdown">
+                                <a onclick="handleRedirectProfile()" id="btn_login" href="#">
                                 <i class="far fa-user"></i>
-                                ' . $_SESSION['user']['name'] . ' </a>';
+                                ' . $_SESSION['user']['name'] . ' </a>
+                                    <div class="dropdown-content">
+                                        <a style="color: black;" onclick="handleRedirectProfile()">Thông tin tài khoản</a>
+                                        <a style="color: black;" href="user_order.php">Đơn mua</a>
+                                        <a id="sign-out-button" type="button" style="color: black;">Đăng xuất</a>
+                                    </div>
+                                </div>';
                         } else {
                             echo '<a onclick="handleShowLoginForm()" id="btn_login" href="#">
                                 <i class="far fa-user"></i>
@@ -175,7 +183,7 @@ ob_start();
                                             $price = number_format($_SESSION['cart'][$i]["price"], 0, ',', '.');
                                             echo '<div class="product-widget">';
                                             echo '<div class="product-img">';
-                                            echo '<img src="' . $_SESSION['cart'][$i]["imageUrl"] . '" alt="">';
+                                            echo '<img src="../upload-images/' . $_SESSION['cart'][$i]["imageUrl"] . '" alt="">';
                                             echo '</div>';
                                             echo '<div class="product-body">';
                                             echo '<h3 class="product-name"><a href="#">' . $_SESSION['cart'][$i]["name"] . '</a></h3>';
@@ -245,3 +253,13 @@ ob_start();
         <!-- /container -->
     </nav>
     <!-- /NAVIGATION -->
+    <script>
+        $('#sign-out-button').click(function() {
+            $.ajax({
+                type: "POST",
+                url: "./functions/handleLogout.php"
+            }).done(function(msg) {
+                msg ? window.location.replace("index.php") : alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
+            });
+        });
+    </script>

@@ -33,7 +33,7 @@ require('./inc/header.php');
                     echo '<tr>';
                     echo '<td >';
                     echo '<div style="display:flex;align-items:center;width:400px">';
-                    echo '<img src="' . $_SESSION['cart'][$i]["imageUrl"] . '" style="object-fit:contain;" alt="" width="150px" height="150px">';
+                    echo '<img src="../upload-images/' . $_SESSION['cart'][$i]["imageUrl"] . '" style="object-fit:contain;" alt="" width="150px" height="150px">';
                     echo '<a href="#">' . $_SESSION['cart'][$i]["name"] . '</a>';
                     echo '</div>';
                     echo '</td>';

@@ -4,7 +4,7 @@ require('./functions/renderListProduct.php');
 ?>
 <!-- COUNTDOWN Script -->
 <script>
-	var end = new Date("Nov 31, 2021 00:00:00").getTime();
+	var end = new Date("Dec 31, 2021 00:00:00").getTime();
 
 	var _second = 1000;
 	var _minute = _second * 60;

@@ -438,7 +438,7 @@ $brand    	  = executeResult($sqlBrand)[0];
 								<!-- Review Form -->
 								<div class="col-md-3">
 									<?php
-									if (isset($_SESSION['username']) && $_SESSION['username']) {
+									if (isset($_SESSION['user']) && $_SESSION['user']) {
 										echo '<div id="review-form">
 											<form class="review-form" method="POST">
 												<!-- <input class="input" type="text" placeholder="Your Name">
