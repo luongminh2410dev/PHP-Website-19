@@ -24,19 +24,29 @@
         $password = $_POST['userPass'];
         $role_id = $_POST['userRoleId'];
 
-        $sqlAdd =  "INSERT INTO tbl_user (name, phone, email, address, username, password, role_id)
-                    VALUES ('$name', '$phone', '$email', '$address', '$username','$password', '$role_id')";
+        $sqlCheckUsername = "SELECT * FROM tbl_user WHERE username = '$username'";
+        $userCheck = executeSingleResult($sqlCheckUsername);
 
-        $idReturn = executeReturnId($sqlAdd);
-        if (execute($sqlAdd)) {
-            echo '<div class="alert alert-success" role="alert">
-                    Thêm mới thành công.
-                  </div>';
+        if($userCheck == null){
+            $password = md5($password);
+            $sqlAdd =  "INSERT INTO tbl_user (name, phone, email, address, username, password, role_id)
+                        VALUES ('$name', '$phone', '$email', '$address', '$username','$password', '$role_id')";
+    
+            if (execute($sqlAdd)) {
+                echo '<div class="alert alert-success" role="alert">
+                        Thêm mới thành công.
+                      </div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">
+                        Thêm mới thất bại.
+                      </div>';
+            }
         } else {
             echo '<div class="alert alert-danger" role="alert">
-                    Thêm mới thất bại.
-                  </div>';
+                        Username đã tồn tại.
+                 </div>';
         }
+        
     }
     ?>
     <div class="container-fluid">

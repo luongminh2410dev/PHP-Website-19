@@ -208,12 +208,20 @@
                             <div class="col-lg-12 mt-4">
                                 <label>Hình ảnh sản phẩm</label>
                                 <div>
-                                    <div class="form-group">
-                                        <label class="btn btn-primary" for="productImages">Chọn ảnh</label>
-                                        <input hidden="true" type="file" name="productImages[]" id="productImages"
-                                            onchange="previewFile(this)" required multiple>
-                                        <div class="invalid-feedback">
-                                            Vui lòng chọn hình ảnh sản phẩm.
+                                    <div style="display: flex;">
+                                        <div class="form-group">
+                                            <label class="btn btn-primary" for="productImages">Chọn ảnh</label>
+                                            <input hidden="true" type="file" name="productImages[]" id="productImages"
+                                                onchange="previewFile(this)" required multiple>
+                                            <div class="invalid-feedback">
+                                                Vui lòng chọn hình ảnh sản phẩm.
+                                            </div>
+                                        </div>
+                                        <div id="btnRemoveImages" style="display: none;">
+                                            <a target="_blank" id="btnDelete" onclick="removeAllImages()"
+                                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+                                                Xoá
+                                            </a>
                                         </div>
                                     </div>
                                     <div id="list_image_preview" style="display: flex;">
@@ -260,10 +268,6 @@
         text-align: center;
     }
 
-    .container-image:hover .preview-image {
-        opacity: 0.3;
-    }
-
     .container-image:hover .middle {
         opacity: 1;
     }
@@ -291,41 +295,36 @@
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })
     })()
 
-    var count_images = 0;
-
     function previewFile(input) {
+        $('#list_image_preview').empty();
         var flag = 1;
         const max_images = 4;
-        const images = Array.from(document.getElementById("productImages").files);
-        var total_file = images.length;
+        var images = Array.from(input.files);
 
-        if (total_file <= max_images) {
-            for (var i = 0; i < total_file; i++) {
-                var currentIndex = i;
+        if (images.length <= max_images) {
+            for (var i = 0; i < images.length; i++) {
 
-                if (count_images >= 4) {
-                    alert("Chọn tối đa 4 ảnh")
+                if (checkFileExist(images[i].name)) {
+                    alert("File " + images[i].name + " đã tồn tại")
+                    flag = 0;
                     break;
                 }
 
-                if (checkFileExist(event.target.files[i].name)) {
-                    alert("File " + event.target.files[i].name + " đã tồn tại")
+                if (!checkImageFileType(images[i].type)) {
+                    alert("File " + images[i].name + " không đúng định dạng file")
                     flag = 0;
-                }
-                if (!checkImageFileType(event.target.files[i].type)) {
-                    alert("File " + event.target.files[i].name + " không đúng định dạng file")
-                    flag = 0;
+                    break;
                 }
 
-                if (!checkImageSize(event.target.files[i].size)) {
-                    alert("File " + event.target.files[i].name + " quá nặng ( tối đa 500kb )")
+                if (!checkImageSize(images[i].size)) {
+                    alert("File " + images[i].name + " quá nặng ( tối đa 1Mb )")
                     flag = 0;
+                    break;
                 }
 
                 if (flag == 1) {
@@ -337,32 +336,20 @@
                     //element image
                     var elem = document.createElement("img");
                     elem.classList.add("preview-image")
-                    elem.setAttribute("src", URL.createObjectURL(event.target.files[i]));
+                    elem.setAttribute("src", URL.createObjectURL(images[i]));
                     elem.setAttribute("height", "200");
                     elem.setAttribute("width", "200");
                     elem.setAttribute("alt", "Anh");
-
-                    //element remove
-                    var button = document.createElement("button");
-                    button.classList.add('btnRemoveImg', 'btn', 'btn-danger');
-                    button.textContent = "Xóa";
-                    button.onclick = function() {
-                        $(this).parents('.container-image').remove();
-                        images.splice(currentIndex, 1);
-                        document.getElementById("productImages").files = updateFileList(images);
-                        count_images--;
-                    }
 
                     //element middle
                     var middle = document.createElement("div");
                     middle.classList.add('middle');
 
                     //add elements
-                    middle.append(button);
                     div.append(elem);
                     div.append(middle);
                     $('#list_image_preview').append(div);
-                    count_images++;
+                    $('#btnRemoveImages').css('display', 'block');
 
                 }
             }
@@ -378,7 +365,7 @@
     }
 
     function checkImageSize(size) {
-        return parseInt(size) < 1500000;
+        return parseInt(size) < 1000000;
     }
 
     function checkFileExist(fileName) {
@@ -393,13 +380,8 @@
         return (response != "200") ? false : true;
     }
 
-    function updateFileList(fileList) {
-        var list = new DataTransfer();
-        fileList.forEach(function(item) {
-            let file = new File(["content"], item.name);
-            list.items.add(file);
-        })
-        var myFileList = list.files;
-        return myFileList;
+    function removeAllImages() {
+        $('#list_image_preview').empty();
+        $('#btnRemoveImages').css('display', 'none');
     }
     </script>

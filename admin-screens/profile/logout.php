@@ -1,5 +1,7 @@
 <?php
     session_start();
-    unset($_SESSION['admin']);
+    $role = $_SESSION['role'];
+    unset($_SESSION[$role]);
+    unset($_SESSION['role']);
     header("location: ../login.php");
 ?>

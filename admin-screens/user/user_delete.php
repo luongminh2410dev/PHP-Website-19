@@ -3,20 +3,20 @@ include "../../database/dbHelper.php";
 if (isset($_POST['ids'])) {
     $ids = $_POST['ids'];
     $strIds = implode(",", $ids);
-    $sqlCategory = "DELETE FROM tbl_category_type WHERE id IN ($strIds)";
-    if (execute($sqlCategory)) {
-        echo json_encode("Done");
+    $sqlUsers = "DELETE FROM tbl_user WHERE id IN ($strIds)";
+    if (execute($sqlUsers)) {
+        echo json_encode("success");
     } else {
-        echo "<script>alert('Lỗi')</script>";
+        echo json_encode("failed");
     }
 }
 
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
-    $sqlCategory = "DELETE FROM tbl_category_type WHERE id = $id";
-    if (execute($sqlCategory)) {
-        echo json_encode("Done");
+    $sqlRemoveUser = "DELETE FROM tbl_user WHERE id = $id";
+    if (execute($sqlRemoveUser)) {
+        echo json_encode("success");
     } else {
-        echo "<script>alert('Lỗi')</script>";
+        echo json_encode("failed");
     }
 }

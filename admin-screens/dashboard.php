@@ -1,8 +1,11 @@
 <?php
 include '../database/dbHelper.php';
 session_start();
-if (isset($_SESSION['admin'])) {
-    $user = $_SESSION['admin'];
+if (isset($_SESSION['role'])) {
+    $role = $_SESSION['role'];
+    if(isset($_SESSION[$role])){
+        $user = $_SESSION[$role];
+    }
 } else {
     header("location: login.php");
 }
@@ -86,7 +89,7 @@ $countOrder = count(executeResult($sqlOrder));
                                 <img src="assets/images/users/varun.jpg" alt="user-img" width="36"
                                     class="img-circle"><span
                                     class="text-white font-medium"><?php echo $user['name'] ?></span></a>
-                            <a class="profile-pic" href="../profile/logout.php">Đăng xuất</a>
+                            <a class="profile-pic" href="profile/logout.php">Đăng xuất</a>
                         </li>
                     </ul>
                 </div>
@@ -100,7 +103,7 @@ $countOrder = count(executeResult($sqlOrder));
                     <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.php"
                                 aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>
                                 <span class="hide-menu">Dashboard</span>
@@ -134,13 +137,17 @@ $countOrder = count(executeResult($sqlOrder));
                                 <span class="hide-menu">Thương hiệu</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user/user_index.php"
-                                aria-expanded="false">
-                                <i class="far fa-user" aria-hidden="true"></i>
-                                <span class="hide-menu">Người dùng</span>
-                            </a>
-                        </li>
+                        <?php
+                        if(strcmp($role, 'Admin') == 0){
+                            echo '<li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user/user_index.php"
+                                        aria-expanded="false">
+                                        <i class="far fa-user" aria-hidden="true"></i>
+                                        <span class="hide-menu">Người dùng</span>
+                                    </a>
+                                </li>';
+                        }
+                        ?>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -166,8 +173,25 @@ $countOrder = count(executeResult($sqlOrder));
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-success"><?php echo $countUser ?></span>
-                                </li>
+
+                                <?php 
+                               
+                                if (isset($_SESSION['role'])) {
+                                    $role = $_SESSION['role'];
+                                    if(strcmp($role, 'Admin') == 0){
+                                        echo '<li class="ms-auto"><a href="user/user_index.php" class="counter text-success">';
+                                        echo $countUser;
+                                        echo '</a>';
+                                        echo '</li>';
+                                    } else {
+                                        echo '<li class="ms-auto"><span class="counter text-success">';
+                                        echo $countUser;
+                                        echo '</span>';
+                                        echo '</li>';
+                                    }
+                                }
+                                ?>
+
                             </ul>
                         </div>
                     </div>
@@ -180,7 +204,8 @@ $countOrder = count(executeResult($sqlOrder));
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-purple"><?php echo $countProduct ?></span>
+                                <li class="ms-auto"><a href="product/product_index.php"
+                                        class="counter text-purple"><?php echo $countProduct ?></a>
                                 </li>
                             </ul>
                         </div>
@@ -194,7 +219,8 @@ $countOrder = count(executeResult($sqlOrder));
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info"><?php echo $countOrder ?></span>
+                                <li class="ms-auto"><a href="order/order_index.php"
+                                        class="counter text-info"><?php echo $countOrder ?></a>
                                 </li>
                             </ul>
                         </div>

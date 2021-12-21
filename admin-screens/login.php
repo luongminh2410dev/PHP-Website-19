@@ -78,14 +78,19 @@
                 if (isset($_POST['sbm'])) {
                     $username = $_POST['username'];
                     $password = $_POST['password'];
-                    $sql = "SELECT * FROM tbl_user WHERE username = '$username' AND password = '$password' AND role_id != 2";
+                    $password = md5($password);
+                    $sql = "SELECT tbl_user.id, tbl_user.name, tbl_user.phone, tbl_user.email, tbl_user.address, tbl_user.username, tbl_user.password, tbl_user.role_id, tbl_role.name as 'role' 
+                    FROM tbl_user INNER JOIN tbl_role on tbl_user.role_id = tbl_role.id 
+                    WHERE username = '$username' AND password = '$password' AND role_id != 2";
                     $user = executeSingleResult($sql);
                     if ($user == null) {
                         echo '<div class="alert alert-danger" role="alert">
                                 Sai tên đăng nhập hoặc mật khẩu
                              </div>';
                     } else {
-                        $_SESSION['admin'] = $user;
+                        $role = $user['role'];
+                        $_SESSION[$role] = $user;
+                        $_SESSION['role'] = $role;
                         header("location: dashboard.php");
                     }
                 }

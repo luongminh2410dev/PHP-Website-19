@@ -95,23 +95,27 @@ $totalPage = ceil(count($listBrands) / $limitItem);
                 ids.push($(this).val());
             }
         });
-        let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
-        if (confirmAction) {
-            $.ajax({
-                url: "brand_delete.php",
-                type: "post",
-                dataType: "json",
-                data: {
-                    ids: ids
-                },
-                success: function(data) {
-                    alert("Xóa thành công");
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            })
+        if (ids.length == 0) {
+            alert('Bạn chưa chọn mục nào');
+        } else {
+            let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
+            if (confirmAction) {
+                $.ajax({
+                    url: "brand_delete.php",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        ids: ids
+                    },
+                    success: function(data) {
+                        alert("Xóa thành công");
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                })
+            }
         }
     });
 

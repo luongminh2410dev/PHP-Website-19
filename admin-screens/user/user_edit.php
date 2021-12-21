@@ -13,9 +13,7 @@ $user = executeSingleResult($sqlSelectUser);
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Thêm mới người dùng</h4>
             </div>
-
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <?php
     if (isset($_POST['sbm'])) {
@@ -25,26 +23,47 @@ $user = executeSingleResult($sqlSelectUser);
         $email = $_POST['userEmail'];
         $address = $_POST['userAddress'];
         $username = $_POST['username'];
-        $password = $_POST['userPass'];
         $role_id = $_POST['userRoleId'];
 
-        $sqlUpdate = "UPDATE tbl_user SET name = '$name'," .
+        if(empty($_POST['userPass'])){
+            $sqlUpdate = "UPDATE tbl_user SET name = '$name'," .
             "phone = '$phone'," .
             "email = '$email'," .
             "address = '$address'," .
             "username = '$username'," .
-            "password = '$password' " .
+            "role_id = '$role_id' " .
             "WHERE id = $userId";
+        } else {
+            $password = $_POST['userPass'];
+            $password = md5($password);
+            $sqlUpdate = "UPDATE tbl_user SET name = '$name'," .
+            "phone = '$phone'," .
+            "email = '$email'," .
+            "address = '$address'," .
+            "username = '$username'," .
+            "password = '$password'," .
+            "role_id = '$role_id' " .
+            "WHERE id = $userId";
+        }
 
-        if (execute($sqlUpdate)) {
-            echo '<div class="alert alert-success" role="alert">
-                    Cập nhật thành công.
-            </div>';
+        $sqlCheckUsername = "SELECT * FROM tbl_user WHERE username = '$username'";
+        $userCheck = executeSingleResult($sqlCheckUsername);
+        if($userCheck == null){
+            if (execute($sqlUpdate)) {
+                echo '<div class="alert alert-success" role="alert">
+                        Cập nhật thành công.
+                    </div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">
+                        Cập nhật thất bại.
+                    </div>';
+            }
         } else {
             echo '<div class="alert alert-danger" role="alert">
-                Cập nhật thất bại.
-            </div>';
+                    Username đã tồn tại.
+                </div>';
         }
+        
     }
     ?>
     <div class="container-fluid">
@@ -130,8 +149,8 @@ $user = executeSingleResult($sqlSelectUser);
 
                                 <div class="form-group">
                                     <label for="userPass">Mật khẩu</label>
-                                    <input type="password" class="form-control" name="userPass" id="userPass"
-                                        value="<?php echo $user['password'] ?>" required>
+                                    <input type="password" class="form-control" name="userPass" id="userPass" value=""
+                                        placeholder="Để trống nếu không muốn thay đổi mật khẩu">
                                     <div class="invalid-feedback">
                                         Vui lòng nhập mật khẩu.
                                     </div>

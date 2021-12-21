@@ -1,7 +1,10 @@
 <?php
 session_start();
-if (isset($_SESSION['admin'])) {
-    $user = $_SESSION['admin'];
+if (isset($_SESSION['role'])) {
+    $role = $_SESSION['role'];
+    if(isset($_SESSION[$role])){
+        $user = $_SESSION[$role];
+    }
 } else {
     header("location: ../login.php");
 }

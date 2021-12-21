@@ -267,23 +267,27 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                 ids.push($(this).val());
             }
         });
-        let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
-        if (confirmAction) {
-            $.ajax({
-                url: "product_delete.php",
-                type: "post",
-                dataType: "json",
-                data: {
-                    ids: ids
-                },
-                success: function(data) {
-                    alert("Xóa thành công");
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            })
+        if (ids.length == 0) {
+            alert('Bạn chưa chọn mục nào');
+        } else {
+            let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
+            if (confirmAction) {
+                $.ajax({
+                    url: "product_delete.php",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        ids: ids
+                    },
+                    success: function(data) {
+                        alert("Xóa thành công");
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, errorThrown);
+                    }
+                })
+            }
         }
     });
 
@@ -568,7 +572,7 @@ $totalPage = ceil(count($listProducts) / $limitItem);
                 response.images.forEach(function showImages(item, index) {
                     var strImage =
                         '<img src="../../upload-images/' + item.image_url + '" ' +
-                        'alt = "" style="object-fit:contain" width = "150" height = "150">';
+                        'alt = "" style="object-fit:contain; margin:5px" width = "150" height = "150">';
                     $('#images').append(strImage);
                 })
                 $('#NAME').text(response.product.name)

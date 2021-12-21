@@ -4,7 +4,7 @@ if (isset($_POST['currentPage']) && isset($_POST['limitItem']) && empty($_POST['
     $limitItem = $_POST['limitItem'];
     $currentPage = $_POST['currentPage'];
     $startPage = ($currentPage - 1) * $limitItem;
-    $sql = "SELECT * FROM tbl_order LIMIT $startPage, $limitItem";
+    $sql = "SELECT * FROM tbl_order ORDER BY created_date DESC LIMIT $startPage, $limitItem";
     $listOrders = executeResult($sql);
     echo json_encode($listOrders);
 }

@@ -5,7 +5,6 @@ $listUsers = executeResult($sql);
 $limitItem = 5;
 $totalPage = ceil(count($listUsers) / $limitItem);
 ?>
-
 <?php include "../layouts/header.php" ?>
 <?php include "../layouts/sidebar.php" ?>
 <div class="page-wrapper">
@@ -150,39 +149,50 @@ $totalPage = ceil(count($listUsers) / $limitItem);
                 ids.push($(this).val());
             }
         });
-        let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
-        if (confirmAction) {
-            $.ajax({
-                url: "brand_delete.php",
-                type: "post",
-                dataType: "json",
-                data: {
-                    ids: ids
-                },
-                success: function(data) {
-                    alert("Xóa thành công");
-                    location.reload();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            })
+        if (ids.length == 0) {
+            alert('Bạn chưa chọn mục nào');
+        } else {
+            let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
+            if (confirmAction) {
+                $.ajax({
+                    url: "user_delete.php",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        ids: ids
+                    },
+                    success: function(data) {
+                        if (data == 'success') {
+                            alert("Xóa thành công");
+                            location.reload();
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, errorThrown);
+                    }
+                })
+            }
         }
     });
 
     function deleteItem(id) {
-        let confirmAction = confirm("Bạn có chắc chắn muốn xóa ?");
+        let confirmAction = confirm("Bạn có chắc chắn muốn xóa?");
         if (confirmAction) {
             $.ajax({
-                url: "brand_delete.php?id=" + id,
-                type: "get",
+                url: "user_delete.php",
+                type: "post",
                 dataType: "json",
+                data: {
+                    id: id
+                },
                 success: function(data) {
-                    alert("Xóa thành công");
-                    location.reload();
+                    if (data == 'success') {
+                        alert("Xóa thành công");
+                        location.reload();
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+                    console.log(jqXHR, errorThrown);
                 }
             })
         }

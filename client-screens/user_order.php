@@ -52,7 +52,7 @@ require('./inc/header.php');
                         echo '</td>';
                         echo '</td>';
                         echo '<td style="vertical-align:middle">';
-                        echo '<p>' . $i['create_date'] . '</p>';
+                        echo '<p>' . $i['created_date'] . '</p>';
                         echo '</td>';
                         echo '</tr>';
                     }

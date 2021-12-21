@@ -99,9 +99,11 @@ $detail_order = executeResult($sqlSelectDetailOrder);
                         <div style="display: flex;align-items: baseline;" class="mb-3">
                             <label class="me-2">Trạng thái</label>
                             <select class="form-select" style="width: 200px;" id="statusOrder" name="statusOrder">
+                                <option value="Đang chờ xử lý">Đang chờ xử lý</option>
                                 <option value="Đang xử lý">Đang xử lý</option>
                                 <option value="Đang giao">Đang giao</option>
                                 <option value="Hoàn thành">Hoàn thành</option>
+                                <option value="Đã hủy">Đã hủy</option>
                             </select>
                         </div>
                         <div style="display: flex;justify-content: space-between;">

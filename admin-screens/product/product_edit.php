@@ -55,6 +55,12 @@ $product = executeSingleResult($sqlSelectProduct);
             "WHERE id = $productId";
 
         if (execute($sqlUpdate)) {
+            $fileImgs = executeResult("SELECT * FROM tbl_product_details WHERE id_product = $productId");
+            $sqlDeleteProductDetail = "DELETE FROM tbl_product_details WHERE id_product = $productId";
+            execute($sqlDeleteProductDetail);
+            foreach($fileImgs as $fileImg){
+                unlink('../../upload-images/'.$fileImg['image_url']);
+            }
             if(uploadImageAndSaveToDb($productImages, $productId)){
                 echo '<div class="alert alert-success" role="alert">
                         Cập nhật sản phẩm thành công.
@@ -235,16 +241,26 @@ $product = executeSingleResult($sqlSelectProduct);
                             <div class="col-lg-12 mt-4">
                                 <label>Hình ảnh sản phẩm</label>
                                 <div>
-                                    <div class="form-group">
-                                        <label class="btn btn-primary" for="productImages">Chọn ảnh</label>
-                                        <input hidden="true" type="file" name="productImages[]" id="productImages"
-                                            onchange="previewFile(this)" required multiple>
-                                        <div class="invalid-feedback">
-                                            Vui lòng chọn hình ảnh sản phẩm.
+                                    <div style="display: flex;">
+                                        <div class="form-group">
+                                            <label class="btn btn-primary" for="productImages">Chọn ảnh</label>
+                                            <input hidden="true" type="file" name="productImages[]" id="productImages"
+                                                onchange="previewFile(this)" required multiple>
+                                            <div class="invalid-feedback">
+                                                Vui lòng chọn hình ảnh sản phẩm.
+                                            </div>
+                                        </div>
+                                        <div id="btnRemoveImages" style="display: none;">
+                                            <a target="_blank" id="btnDelete" onclick="removeAllImages()"
+                                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
+                                                Xoá
+                                            </a>
                                         </div>
                                     </div>
+
                                     <div id="list_image_preview" style="display: flex;">
                                         <?php
+                                       
                                         $sqlImages = "SELECT * FROM tbl_product_details WHERE id_product = $productId";
                                         $listImages = executeResult($sqlImages);
                                         $count_images = count($listImages);
@@ -252,7 +268,6 @@ $product = executeSingleResult($sqlSelectProduct);
                                             foreach ($listImages as $item) {
                                                 echo '<div class="container-image">';
                                                 echo '<img class="preview-image" src="../../upload-images/' . $item['image_url'] . '" height="200" width="200" alt="Anh">';
-                                                echo '<div class="middle"><button type="button" class="btnRemoveImg btn btn-danger" onclick="removeImage(this, '.$item['id'].')">Xóa</button></div>';
                                                 echo '</div>';
                                             }
                                         }
@@ -301,10 +316,6 @@ $product = executeSingleResult($sqlSelectProduct);
         text-align: center;
     }
 
-    .container-image:hover .preview-image {
-        opacity: 0.3;
-    }
-
     .container-image:hover .middle {
         opacity: 1;
     }
@@ -340,36 +351,31 @@ $product = executeSingleResult($sqlSelectProduct);
             })
     })()
 
-    var count_images = <?php echo $count_images ?>;
-
     function previewFile(input) {
+        $('#list_image_preview').empty();
         var flag = 1;
         const max_images = 4;
+        var images = Array.from(input.files);
 
-        const images = Array.from(document.getElementById("productImages").files);
-        var total_file = images.length;
+        if (images.length <= max_images) {
+            for (var i = 0; i < images.length; i++) {
 
-        if (total_file <= max_images) {
-            for (var i = 0; i < total_file; i++) {
-                var currentIndex = i;
-
-                if (count_images >= 4) {
-                    alert("Chọn tối đa 4 ảnh")
+                if (checkFileExist(images[i].name)) {
+                    alert("File " + images[i].name + " đã tồn tại")
+                    flag = 0;
                     break;
                 }
 
-                if (checkFileExist(event.target.files[i].name)) {
-                    alert("File " + event.target.files[i].name + " đã tồn tại")
+                if (!checkImageFileType(images[i].type)) {
+                    alert("File " + images[i].name + " không đúng định dạng file")
                     flag = 0;
-                }
-                if (!checkImageFileType(event.target.files[i].type)) {
-                    alert("File " + event.target.files[i].name + " không đúng định dạng file")
-                    flag = 0;
+                    break;
                 }
 
-                if (!checkImageSize(event.target.files[i].size)) {
-                    alert("File " + event.target.files[i].name + " quá nặng ( tối đa 500kb )")
+                if (!checkImageSize(images[i].size)) {
+                    alert("File " + images[i].name + " quá nặng ( tối đa 1Mb )")
                     flag = 0;
+                    break;
                 }
 
                 if (flag == 1) {
@@ -381,32 +387,21 @@ $product = executeSingleResult($sqlSelectProduct);
                     //element image
                     var elem = document.createElement("img");
                     elem.classList.add("preview-image")
-                    elem.setAttribute("src", URL.createObjectURL(event.target.files[i]));
+                    elem.setAttribute("src", URL.createObjectURL(images[i]));
                     elem.setAttribute("height", "200");
                     elem.setAttribute("width", "200");
                     elem.setAttribute("alt", "Anh");
 
-                    //element remove
-                    var button = document.createElement("button");
-                    button.classList.add('btnRemoveImg', 'btn', 'btn-danger')
-                    button.textContent = "Xóa"
-                    button.onclick = function() {
-                        $(this).parents('.container-image').remove();
-                        images.splice(currentIndex, 1);
-                        document.getElementById("productImages").files = updateFileList(images);
-                        count_images--;
-                    };
-
                     //element middle
                     var middle = document.createElement("div");
-                    middle.classList.add('middle')
+                    middle.classList.add('middle');
 
                     //add elements
-                    middle.append(button)
-                    div.append(elem)
-                    div.append(middle)
-                    $('#list_image_preview').append(div)
-                    count_images++;
+                    div.append(elem);
+                    div.append(middle);
+                    $('#list_image_preview').append(div);
+                    $('#btnRemoveImages').css('display', 'block');
+
                 }
             }
         } else {
@@ -421,7 +416,7 @@ $product = executeSingleResult($sqlSelectProduct);
     }
 
     function checkImageSize(size) {
-        return parseInt(size) < 1500000;
+        return parseInt(size) < 1000000;
     }
 
     function checkFileExist(fileName) {
@@ -436,34 +431,8 @@ $product = executeSingleResult($sqlSelectProduct);
         return (response != "200") ? false : true;
     }
 
-    function removeImage(input, id) {
-        $.ajax({
-            url: "product_delete.php",
-            type: "post",
-            dataType: "json",
-            data: {
-                product_detail_id: id
-            },
-            success: function(response) {
-                if (response === 'success') {
-                    // $("#whishlist").load(" #whishlist > *");
-                    $(input).parents('.container-image').remove()
-                    count_images--;
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR, errorThrown);
-            }
-        });
-    }
-
-    function updateFileList(fileList) {
-        var list = new DataTransfer();
-        fileList.forEach(function(item) {
-            let file = new File(["content"], item.name);
-            list.items.add(file);
-        })
-        var myFileList = list.files;
-        return myFileList;
+    function removeAllImages() {
+        $('#list_image_preview').empty();
+        $('#btnRemoveImages').css('display', 'none');
     }
     </script>

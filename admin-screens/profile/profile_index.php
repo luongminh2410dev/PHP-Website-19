@@ -1,8 +1,11 @@
 <?php include "../layouts/header.php" ?>
 <?php include "../layouts/sidebar.php" ?>
 <?php
-if (isset($_SESSION['admin'])) {
-    $user = $_SESSION['admin'];
+if (isset($_SESSION['role'])) {
+    $role = $_SESSION['role'];
+    if(isset($_SESSION[$role])){
+        $user = $_SESSION[$role];
+    }
 } else {
     header("location: ../login.php");
 }
@@ -101,7 +104,8 @@ if (isset($_SESSION['admin'])) {
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Password</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="password" class="form-control p-0 border-0" name="password">
+                                    <input type="password" class="form-control p-0 border-0" name="password"
+                                        placeholder="Để trống nếu không muốn thay đổi mật khẩu">
                                 </div>
                             </div>
                             <div class="form-group mb-4">

@@ -71,9 +71,11 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                                 <label for="status">Trạng thái</label>
                                 <select class="form-select" id="orderStatus">
                                     <option value="0">Chọn trạng thái...</option>
+                                    <option value="Đang chờ xử lý">Đang chờ xử lý</option>
                                     <option value="Đang xử lý">Đang xử lý</option>
                                     <option value="Đang giao">Đang giao</option>
                                     <option value="Hoàn thành">Hoàn thành</option>
+                                    <option value="Đã hủy">Đã hủy</option>
                                 </select>
                             </div>
                         </div>
@@ -90,14 +92,9 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                             <p id="messageSearch"></p>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
-
-                            <!-- <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Xuất ra excel"
-                                class="btn btn-success  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                <i class="fas fa-download"></i>
-                            </button> -->
                             <a target="_blank" id="btnDelete"
                                 class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                Xoá
+                                Hủy
                             </a>
                             <a href="./order_add.php" target="_blank"
                                 class="btn btn-primary  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
@@ -125,8 +122,8 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>0 result</td>
+                                <tr style="text-align: center;">
+                                    <td colspan="8">0 result</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -177,7 +174,7 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                             </thead>
                             <tbody id="bodyDetailOrder">
                                 <tr>
-                                    <td>0 result</td>
+                                    <td colspan='8'>0 result</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -220,25 +217,50 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                 ids.push($(this).val());
             }
         });
-        let confirmAction = confirm("Bạn có chắc chắn muốn xóa " + ids.length + " mục đã chọn?");
+        if (ids.length == 0) {
+            alert('Bạn chưa chọn mục nào');
+        } else {
+            let confirmAction = confirm("Bạn có chắc chắn muốn hủy " + ids.length + " hóa đơn đã chọn?");
+            if (confirmAction) {
+                $.ajax({
+                    url: "order_cancel.php",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        ids: ids
+                    },
+                    success: function(data) {
+                        alert("Hủy hóa đơn thành công");
+                        location.reload();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, errorThrown);
+                    }
+                })
+            }
+        }
+    });
+
+    function deleteItem(id) {
+        let confirmAction = confirm("Bạn có chắc chắn muốn hủy hóa đơn này?");
         if (confirmAction) {
             $.ajax({
-                url: "product_delete.php",
+                url: "order_cancel.php",
                 type: "post",
                 dataType: "json",
                 data: {
-                    ids: ids
+                    id: id
                 },
                 success: function(data) {
-                    alert("Xóa thành công");
+                    alert("Hủy hóa đơn thành công");
                     location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+                    console.log(jqXHR, errorThrown);
                 }
             })
         }
-    });
+    }
 
     var totalPage = <?php echo $totalPage; ?>;
     var limitItem = <?php echo $limitItem; ?>;
@@ -301,8 +323,8 @@ $totalPage = ceil(count($listOrders) / $limitItem);
                             var tdAction = document.createElement("td");
                             var strAction =
                                 '<div class="action-item">' +
-                                '<a href="product_delete.php?id=' + item.id +
-                                '"><i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
+                                '<a onclick="deleteItem(' + item.id +
+                                ')"><i class="fas fa-trash-alt" style="color:#f33155;"></i></a>' +
                                 '<a href="order_edit.php?id=' + item.id +
                                 '"><i class="fas fa-edit"></i></a>' +
                                 '</div>';

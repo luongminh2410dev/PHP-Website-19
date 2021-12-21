@@ -5,7 +5,7 @@ if (isset($_POST['currentPage']) && isset($_POST['limitItem']) && empty($_POST['
     $currentPage = $_POST['currentPage'];
     $startPage = ($currentPage - 1) * $limitItem;
     $sql = "SELECT tbl_product.id, tbl_product.name, tbl_product.cpu, tbl_product.screen, tbl_product.ram, tbl_product.vga, tbl_product.storage, tbl_product.battery, tbl_product.connect, tbl_product.os, tbl_product.price, tbl_product.description, tbl_product.type_id, tbl_product.create_date, tbl_product.updated_date, tbl_product.old_price, tbl_product.total, tbl_product.sold, tbl_product.introtext, tbl_product_details.image_url FROM tbl_product ".
-    "INNER JOIN tbl_product_details ON tbl_product.id = tbl_product_details.id_product GROUP BY tbl_product.id LIMIT $startPage, $limitItem";
+    "INNER JOIN tbl_product_details ON tbl_product.id = tbl_product_details.id_product GROUP BY tbl_product.id ORDER BY create_date DESC LIMIT $startPage, $limitItem";
     $listProducts = executeResult($sql);
     echo json_encode($listProducts);
 }

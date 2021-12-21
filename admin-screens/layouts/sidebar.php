@@ -40,13 +40,17 @@
                         <span class="hide-menu">Thương hiệu</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../user/user_index.php"
-                        aria-expanded="false">
-                        <i class="far fa-user" aria-hidden="true"></i>
-                        <span class="hide-menu">Người dùng</span>
-                    </a>
-                </li>
+                <?php
+                if(strcmp($role, 'Admin') == 0){
+                    echo '<li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../user/user_index.php"
+                                aria-expanded="false">
+                                <i class="far fa-user" aria-hidden="true"></i>
+                                <span class="hide-menu">Người dùng</span>
+                            </a>
+                        </li>';
+                }
+                ?>
             </ul>
 
         </nav>
